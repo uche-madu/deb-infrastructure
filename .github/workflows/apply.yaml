@@ -43,6 +43,9 @@ jobs:
           with: 
             terraform_version: '1.5.7'
             terraform_wrapper: true
+        
+        - name: Debugging - Show current directory
+          run: pwd
     
         - name: Terraform Init
           run: terraform init
