@@ -7,8 +7,7 @@ on:
         paths:
             - 'terraform/**'
             - '.github/workflows/**'
-        paths-ignore:
-            - '**/README.md'
+            - '!**/README.md'
     
     workflow_dispatch:
         inputs:
