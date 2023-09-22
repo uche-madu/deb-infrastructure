@@ -33,9 +33,9 @@ module "services" {
     "secretmanager.googleapis.com",
     "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
-    "storage-component.googleapis.com", 
+    "storage-component.googleapis.com",
     "dataproc.googleapis.com",
     "iamcredentials.googleapis.com",
-    "bigquery.googleapis.com"
+    "bigquery.googleapis.com",
   ]
 }

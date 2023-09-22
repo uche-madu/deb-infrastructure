@@ -25,7 +25,6 @@ jobs:
                 shell: bash
                 working-directory: ./terraform
 
-        # Add "id-token" with the intended permissions.
         permissions:
             contents: 'read'
             id-token: 'write'
@@ -65,6 +64,13 @@ jobs:
         - name: Display Terraform Plan Output
           if: steps.plan.outcome == 'failure'
           run: echo "Terraform plan failed. Please review the logs"
+        
+        - name: Upload Terraform logs
+          if: always()
+          uses: actions/upload-artifact@v3
+          with:
+            name: terraform-plan
+            path: ./terraform.tfplan
     
         - name: Terraform Apply
           if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == 'true'
@@ -73,10 +79,3 @@ jobs:
         - name: Terraform Destroy (Manual Trigger)
           if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.destroy == 'true'
           run: terraform destroy -auto-approve
-        
-        - name: Upload Terraform logs
-          if: always()
-          uses: actions/upload-artifact@v3
-          with:
-            name: terraform-plan
-            path: ./terraform.tfplan
