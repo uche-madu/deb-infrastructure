@@ -68,7 +68,7 @@ resource "google_secret_manager_secret_version" "airflow_ssh_key_v1" {
 
   # Using file here (instead of filebase64) since kubernetes_secret resource 
   # would base64 encode the key automatically
-  secret_data = file("~/airflow-ssh-key")
+  secret_data = var.airflow_ssh_key_private
 }
 
 # Fetch the latest version of the secret

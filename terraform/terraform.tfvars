@@ -1,7 +1,6 @@
 project_id       = "wizeline-deb"
 region           = "us-central1"
 zone             = "us-central1-c"
-credentials_file = "../credentials.json"
 
 # VPC
 network_name = "deb-capstone-net"

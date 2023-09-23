@@ -3,11 +3,6 @@ variable "project_id" {
   type        = string
 }
 
-variable "credentials_file" {
-  description = "Path to the Google Cloud credentials file"
-  type        = string
-}
-
 variable "region" {
   type = string
 }
@@ -62,6 +57,11 @@ variable "airflow_helm_version" {
 }
 variable "airflow_namespace" {
   type = string
+}
+
+variable "airflow_ssh_key_private" {
+  description = "Private SSH Key for Airflow"
+  type = string  
 }
 
 # Cloud SQL
