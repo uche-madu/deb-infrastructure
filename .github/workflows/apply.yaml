@@ -81,7 +81,7 @@ jobs:
         
         # Add a comment to pull requests with plan results
         - name: Add Plan Comment
-          if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+          if: github.event_name == 'pull_request'
           uses: actions/github-script@v6
           env:
             PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
