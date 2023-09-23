@@ -1,6 +1,6 @@
-project_id       = "wizeline-deb"
-region           = "us-central1"
-zone             = "us-central1-c"
+project_id = "wizeline-deb"
+region     = "us-central1"
+zone       = "us-central1-c"
 
 # VPC
 network_name = "deb-capstone-net"

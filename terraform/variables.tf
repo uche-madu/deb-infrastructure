@@ -61,7 +61,7 @@ variable "airflow_namespace" {
 
 variable "airflow_ssh_key_private" {
   description = "Private SSH Key for Airflow"
-  type = string  
+  type        = string
 }
 
 # Cloud SQL
