@@ -4,7 +4,7 @@ on:
     push:
         branches:
             - develop
-    pull_request_target:
+    pull_request:
         branches:
             - main
         paths:
@@ -76,7 +76,7 @@ jobs:
           run: echo "Terraform plan failed. Please review the logs"
     
         - name: Terraform Apply
-          if: github.ref == 'refs/heads/main' && github.event.pull_request.merged == 'true'
+          if: github.event_name == 'pull_request' && github.event.pull_request.merged == 'true'
           run: |
             terraform apply \
             -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
