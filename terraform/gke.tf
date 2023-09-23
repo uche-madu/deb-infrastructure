@@ -50,24 +50,24 @@ module "gke" {
 }
 
 # Helm Airflow
-resource "helm_release" "airflow" {
-  name       = "airflow"
-  repository = "https://airflow.apache.org"
+# resource "helm_release" "airflow" {
+#   name       = "airflow"
+#   repository = "https://airflow.apache.org"
 
-  # Previously had to pull the helm chart via the CLI locally and reference 
-  # the local directory ("./airflow") here because the Chart.yaml file in the 
-  # remote repo was missing (probably a provider issue).
-  # The fix was to ensure there was no directory with the same name as the chart.
-  # I had an "airflow" directory while the chart name is also "airflow". 
-  # This is a general issue with the helm_release resource. 
-  chart            = "airflow"
-  namespace        = var.airflow_namespace
-  version          = var.airflow_helm_version
-  create_namespace = true
-  wait             = false # Setting to true would impair the wait-for-airflow-migrations container
+#   # Previously had to pull the helm chart via the CLI locally and reference 
+#   # the local directory ("./airflow") here because the Chart.yaml file in the 
+#   # remote repo was missing (probably a provider issue).
+#   # The fix was to ensure there was no directory with the same name as the chart.
+#   # I had an "airflow" directory while the chart name is also "airflow". 
+#   # This is a general issue with the helm_release resource. 
+#   chart            = "airflow"
+#   namespace        = var.airflow_namespace
+#   version          = var.airflow_helm_version
+#   create_namespace = true
+#   wait             = false # Setting to true would impair the wait-for-airflow-migrations container
 
-  values = [file("${path.cwd}/airflow-helm-values/values-dev.yaml"), local.rendered_values]
+#   values = [file("${path.cwd}/airflow-helm-values/values-dev.yaml"), local.rendered_values]
 
-  depends_on = [module.gke.endpoint]
+#   depends_on = [module.gke.endpoint]
 
-}
+# }
