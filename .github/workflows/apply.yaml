@@ -3,6 +3,7 @@ name: Terraform Workflow
 on:
     push:
         branches:
+            - main
             - develop
     pull_request:
         branches:
@@ -55,12 +56,15 @@ jobs:
             terraform_wrapper: true
     
         - name: Terraform Init
+          id: init
           run: terraform init
     
         - name: Terraform Format
+          id: fmt
           run: terraform fmt -check
     
         - name: Terraform Validate
+          id: validate
           run: terraform validate
     
         - name: Terraform Plan
@@ -71,9 +75,36 @@ jobs:
             -no-color \
             -input=false
         
-        - name: Display Terraform Plan Output
-          if: steps.plan.outcome == 'failure'
-          run: echo "Terraform plan failed. Please review the logs"
+        # Add a comment to pull requests with plan results
+        - name: Add Plan Comment
+          if: github.event_name == 'pull_request'
+          id: comment
+          uses: actions/github-script@v6
+          env:
+            PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              try {
+                const issue_number = ${{ github.event.pull_request.number }};
+                const owner = ${{ github.repository_owner }};
+                const repo = ${{ github.repository }};
+                const output = `...`;  // your existing output string
+
+                if (issue_number && owner && repo) {
+                  github.issues.createComment({
+                    issue_number: issue_number,
+                    owner: owner,
+                    repo: repo,
+                    body: output
+                  });
+                } else {
+                  console.error("Missing required information for commenting.");
+                }
+              } catch (error) {
+                console.error("An error occurred:", error);
+              }
+
     
         - name: Terraform Apply
           if: github.event_name == 'pull_request' && github.event.pull_request.merged == 'true'
