@@ -76,7 +76,7 @@ jobs:
             path: ./terraform.tfplan
     
         - name: Terraform Apply
-          if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == 'true'
+          if: github.event_name == 'pull_request' && github.ref == 'refs/heads/main' && github.event.pull_request.merged == 'true'
           run: terraform apply -var="airflow_ssh_key=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" -auto-approve
     
         - name: Terraform Destroy (Manual Trigger)
