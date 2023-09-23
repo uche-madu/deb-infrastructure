@@ -1,6 +1,9 @@
 name: Terraform Workflow
 
 on:
+    push:
+        branches:
+            - develop
     pull_request:
         branches:
             - main
@@ -8,7 +11,8 @@ on:
             - 'terraform/**'
             - '.github/workflows/**'
             - '!**/README.md'
-    
+        types:
+            - closed
     workflow_dispatch:
         inputs:
             destroy:
@@ -61,23 +65,23 @@ jobs:
     
         - name: Terraform Plan
           id: plan
-          run: terraform plan -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" -no-color -input=false
-          continue-on-error: true
+          run: |
+            terraform plan \
+            -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
+            -no-color \
+            -input=false
         
         - name: Display Terraform Plan Output
           if: steps.plan.outcome == 'failure'
           run: echo "Terraform plan failed. Please review the logs"
-        
-        - name: Upload Terraform logs
-          if: always()
-          uses: actions/upload-artifact@v3
-          with:
-            name: terraform-plan
-            path: ./terraform.tfplan
     
         - name: Terraform Apply
-          if: github.event_name == 'pull_request' && github.ref == 'refs/heads/main' && github.event.pull_request.merged == 'true'
-          run: terraform apply -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" -auto-approve -input=false
+          if: github.ref == 'refs/heads/main' && github.event.pull_request.merged == 'true'
+          run: |
+            terraform apply \
+            -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
+            -input=false \
+            -auto-approve 
     
         - name: Terraform Destroy (Manual Trigger)
           if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.destroy == 'true'
