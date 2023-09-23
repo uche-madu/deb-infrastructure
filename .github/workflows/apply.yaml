@@ -139,9 +139,8 @@ jobs:
                 })
               }
 
-    
         - name: Terraform Apply
-          if: github.event_name == 'pull_request' && github.event.pull_request.merged == 'true'
+          if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
           run: |
             terraform apply \
             -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
