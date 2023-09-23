@@ -1,8 +1,8 @@
 
 # DEB Infrastructure as Code Repository
+![Terraform Workflow](https://github.com/github/docs/actions/workflows/apply.yaml/badge.svg)
 
-## Project Steps: How to Run
-## 1. Project Setup: Provision Google Cloud Resources
+## Project Setup: Provision Google Cloud Resources
 
 The following steps assume that a Google Cloud project has been created, Google Cloud SDK has been installed locally and configured to use the project.
 
@@ -70,8 +70,8 @@ Finally, execute the script:
     export TF_VAR_AIRFLOW_SSH_KEY_PRIVATE="$(cat ~/airflow_git_ssh_key)"
     ```
 
-## Apply the config:
-* The terraform config is to be applied via Github Actions, manually or on `pull request` to the `main` branch. Branch protection has been setup for the `main` branch to require that `commits` can only be made to a `feature` branch for `review` and pass `status checks` before being merged with the `main` branch through a `pull request`.
+## Apply the Config
+The terraform config is to be applied via Github Actions, manually or on `pull request` to the `main` branch. Branch protection has been setup for the `main` branch to require that `commits` can only be made to a `feature` branch for `review` and pass `status checks` before being merged with the `main` branch through a `pull request`.
 
     ```bash
     # Create a new branch

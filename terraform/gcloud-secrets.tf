@@ -54,28 +54,3 @@ data "google_secret_manager_secret_version" "airflow_webserver_secret" {
 
   depends_on = [google_secret_manager_secret_version.airflow_webserver_secret_v1]
 }
-
-# # GitSync ssh key
-# resource "google_secret_manager_secret" "airflow_ssh_key_private" {
-#   secret_id = "airflow_ssh_key_private"
-#   replication {
-#     automatic = true
-#   }
-# }
-
-# resource "google_secret_manager_secret_version" "airflow_ssh_key_private_v1" {
-#   secret = google_secret_manager_secret.airflow_ssh_key_private.name
-
-#   # Using file here (instead of filebase64) since kubernetes_secret resource 
-#   # would base64 encode the key automatically
-#   secret_data = var.airflow_ssh_key_private
-# }
-
-# # Fetch the latest version of the secret
-# data "google_secret_manager_secret_version" "airflow_ssh_key_private" {
-#   secret  = google_secret_manager_secret.airflow_ssh_key_private.secret_id
-#   version = "latest"
-
-#   depends_on = [google_secret_manager_secret_version.airflow_ssh_key_private_v1]
-# }
-
