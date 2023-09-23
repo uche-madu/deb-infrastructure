@@ -11,14 +11,14 @@ resource "kubernetes_secret" "airflow_webserver_secret" {
 }
 
 # GitSync ssh key
-resource "kubernetes_secret" "airflow_ssh_secret" {
-  metadata {
-    name      = "airflow-ssh-secret"
-    namespace = var.airflow_namespace
-  }
+# resource "kubernetes_secret" "airflow_ssh_secret" {
+#   metadata {
+#     name      = "airflow-ssh-secret"
+#     namespace = var.airflow_namespace
+#   }
 
-  data = {
-    gitSshKey = var.airflow_ssh_key_private
-  }
-}
+#   data = {
+#     gitSshKey = var.airflow_ssh_key_private
+#   }
+# }
 
