@@ -1,6 +1,6 @@
 
 # DEB Infrastructure as Code Repository
-![Terraform Workflow](https://github.com/github/docs/actions/workflows/apply.yaml/badge.svg)
+![Terraform Workflow](https://github.com/uche-madu/deb-infrastructure/workflows/apply.yaml/badge.svg)
 
 ## Project Setup: Provision Google Cloud Resources
 
