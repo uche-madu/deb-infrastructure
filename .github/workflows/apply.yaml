@@ -61,7 +61,7 @@ jobs:
     
         - name: Terraform Plan
           id: plan
-          run: terraform plan -no-color -input=false
+          run: terraform plan -var="airflow_ssh_key=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" -no-color -input=false
           continue-on-error: true
         
         - name: Display Terraform Plan Output
