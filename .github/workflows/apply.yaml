@@ -24,6 +24,9 @@ jobs:
             run:
                 shell: bash
                 working-directory: ./terraform
+        
+        env:
+            AIRFLOW_SSH_KEY_PRIVATE: ${{ secrets.AIRFLOW_SSH_KEY_PRIVATE }}
 
         permissions:
             contents: 'read'
@@ -58,7 +61,7 @@ jobs:
     
         - name: Terraform Plan
           id: plan
-          run: terraform plan -no-color
+          run: terraform plan -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" -no-color -input=false
           continue-on-error: true
         
         - name: Display Terraform Plan Output
@@ -73,8 +76,8 @@ jobs:
             path: ./terraform.tfplan
     
         - name: Terraform Apply
-          if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == 'true'
-          run: terraform apply -auto-approve
+          if: github.event_name == 'pull_request' && github.ref == 'refs/heads/main' && github.event.pull_request.merged == 'true'
+          run: terraform apply -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" -auto-approve -input=false
     
         - name: Terraform Destroy (Manual Trigger)
           if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.destroy == 'true'
