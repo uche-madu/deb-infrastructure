@@ -48,6 +48,7 @@ PROJECT_ROLES=(
   "roles/iam.securityAdmin"
   "roles/secretmanager.admin"
   "roles/cloudsql.admin"
+  "roles/artifactregistry.admin"
 )
 
 # Service account-level roles

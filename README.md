@@ -2,7 +2,8 @@
 # DEB Infrastructure as Code Repository
 ![Terraform Workflow](https://github.com/uche-madu/deb-infrastructure/actions/workflows/apply.yaml/badge.svg)
 
-This is one of two repositories with code for the entire DEB Project. While this repository focuses on provisioning cloud resources, the [DEB Application repository](https://github.com/uche-madu/deb-application) focuses on the application code such as Airflow DAGS. This separation of concerns via separate repositories aims to follow GitOps Principles. 
+***This is one of two repositories with code for the entire DEB Project. While this repository focuses on provisioning cloud resources, the [DEB Application repository](https://github.com/uche-madu/deb-application) focuses on the application code such as Airflow DAGS. This separation of concerns via separate repositories aims to follow GitOps Principles.***
+
 ## Project Setup: Provision Google Cloud Resources
 
 The following steps assume that a Google Cloud project has been created, Google Cloud SDK has been installed locally and configured to use the project.
@@ -53,7 +54,7 @@ Finally, execute the script:
    ```
 
 2. Set the public key on the Airflow DAGs repository:
-    - Go to your GitHub repository.
+    - Go to your application GitHub repository i.e. the repository that contains airflow DAGs.
     - Navigate to `Settings` > `Deploy keys`.
     - Click on `Add deploy key`.
     - Provide a title and paste the contents of `airflow_git_ssh_key.pub` into the Key field.
@@ -61,10 +62,10 @@ Finally, execute the script:
     - Click `Add key`.
 
 3. Set Up GitHub Secrets with the private key
-    - Go to your GitHub repository and click on the `Settings` tab.
+    - Go to your application GitHub repository, i.e. the repository that contains airflow DAGs, and click on the `Settings` tab.
     - In the left sidebar, click on `Secrets`.
     - Click on `New repository secret` and add your secret. Name it `AIRFLOW_SSH_KEY_PRIVATE` (matching the variable name used in variables.tf and gcloud-secrets.tf, and the Github Actions workflow) and paste the content of your airflow_git_ssh_key file into the value field.
-    - Save
+    - Click `Add secret`
 
 4. (Optional) This project is designed to be run via CI/CD. But if running terraform via the local terminal, you'd could create an environment variable to pass the private key to `terraform plan` and `terraform apply`:
     ```
