@@ -2,6 +2,7 @@
 # DEB Infrastructure as Code Repository
 ![Terraform Workflow](https://github.com/uche-madu/deb-infrastructure/actions/workflows/apply.yaml/badge.svg)
 
+This is one of two repositories with code for the entire DEB Project. While this repository focuses on provisioning cloud resources, the [DEB Application repository](https://github.com/uche-madu/deb-application) focuses on the application code such as Airflow DAGS. This separation of concerns via separate repositories aims to follow GitOps Principles. 
 ## Project Setup: Provision Google Cloud Resources
 
 The following steps assume that a Google Cloud project has been created, Google Cloud SDK has been installed locally and configured to use the project.
@@ -73,26 +74,26 @@ Finally, execute the script:
 ## Apply the Config
 The terraform config is to be applied via Github Actions, manually or on `pull request` to the `main` branch. Branch protection has been setup for the `main` branch to require that `commits` can only be made to a `feature` branch for `review` and pass `status checks` before being merged with the `main` branch through a `pull request`.
 
-    ```bash
-    # Create a new branch
-    git checkout -b feature/my-new-feature
+```bash
+# Create a new branch
+git checkout -b feature/my-new-feature
 
-    # Make your changes and commit them
-    git add .
-    git commit -m "add my new feature"
+# Make your changes and commit them
+git add .
+git commit -m "add my new feature"
 
-    # Push the branch to GitHub
-    git push origin feature/my-new-feature
-    ```
-    * However, For local only deployment, enter the terraform directory `cd terraform` and run: 
-        ```bash
-        terraform init
-        terraform fmt
-        terraform validate
-        terraform plan
-        terraform apply --auto-approve
-        ```
-    `Note:` This assumes that `TF_VAR_AIRFLOW_SSH_KEY_PRIVATE` has already been set as described above.
+# Push the branch to GitHub
+git push origin feature/my-new-feature
+```
+However, For local only deployment, enter the terraform directory `cd terraform` and run: 
+```bash
+terraform init
+terraform fmt
+terraform validate
+terraform plan
+terraform apply --auto-approve
+```
+`Note:` This assumes that `TF_VAR_AIRFLOW_SSH_KEY_PRIVATE` has already been set as described above.
     
 ### Get Cluster Credentials
 * Fetch credentials for the running cluster. It updates a kubeconfig file (written to `HOME/.kube/config`) with appropriate credentials and endpoint information to point `kubectl` at the cluster.
