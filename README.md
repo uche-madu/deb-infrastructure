@@ -115,6 +115,6 @@ The terraform config is to be applied via Github Actions, manually or on `pull r
     ```
 * Paste the external-ip:port (in this case: `34.41.35.207:8080`) in your browser then login to Airflow with the default `username` and `password` (`admin` and `admin`)
 
-***With that, the infrastructure setup is complete. The rest of the project will be completed from the DEB Application repository.***
+***With that, the infrastructure setup is complete. The rest of the project will be completed from the [DEB Application repository](https://github.com/uche-madu/deb-application).***
 
   
