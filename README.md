@@ -48,7 +48,7 @@ Finally, execute the script:
 ## Create ssh keys to set up Git-sync for Airflow DAGS
 1. Run this to generate two files: `airflow_git_ssh_key` (private key) and `airflow_git_ssh_key.pub` (public key):
    ```
-   ssh-keygen -t rsa -b 4096 -f ~/airflow-ssh-key
+   ssh-keygen -t rsa -b 4096 -f ~/airflow_git_ssh_key
    ```
 
 2. Set the public key on the Airflow DAGs repository:
@@ -58,6 +58,17 @@ Finally, execute the script:
     - Provide a title and paste the contents of `airflow_git_ssh_key.pub` into the Key field.
     - Check `allow write access`
     - Click `Add key`.
+
+3. Set Up GitHub Secrets with the private key
+    - Go to your GitHub repository and click on the `Settings` tab.
+    - In the left sidebar, click on `Secrets`.
+    - Click on `New repository secret` and add your secret. Name it `AIRFLOW_SSH_KEY_PRIVATE` (matching the variable name used in variables.tf and gcloud-secrets.tf, and the Github Actions workflow) and paste the content of your airflow_git_ssh_key file into the value field.
+    - Save
+
+4. (Optional) This project is designed to be run via CI/CD. But if running terraform via the local terminal, you'd could create an environment variable to pass the private key to `terraform plan` and `terraform apply`:
+    ```
+    export TF_VAR_AIRFLOW_SSH_KEY_PRIVATE="$(cat ~/airflow_git_ssh_key)"
+    ```
 
 ## Apply the config:
 * The terraform config is to be applied via Github Actions, manually or on `pull request` to the `main` branch. Branch protection has been setup for the `main` branch to require that `commits` can only be made to a `feature` branch for `review` and pass `status checks` before being merged with the `main` branch through a `pull request`.
@@ -81,6 +92,8 @@ Finally, execute the script:
         terraform plan
         terraform apply --auto-approve
         ```
+    `Note:` This assumes that `TF_VAR_AIRFLOW_SSH_KEY_PRIVATE` has already been set as described above.
+    
 ### Get Cluster Credentials
 * Fetch credentials for the running cluster. It updates a kubeconfig file (written to `HOME/.kube/config`) with appropriate credentials and endpoint information to point `kubectl` at the cluster.
 
@@ -102,6 +115,6 @@ Finally, execute the script:
     ```
 * Paste the external-ip:port (in this case: `34.41.35.207:8080`) in your browser then login to Airflow with the default `username` and `password` (`admin` and `admin`)
 
-With that, the infrastructure setup is complete. The rest of the project will be completed from the DEB Application repository.
+***With that, the infrastructure setup is complete. The rest of the project will be completed from the DEB Application repository.***
 
   
