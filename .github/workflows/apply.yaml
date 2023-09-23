@@ -19,7 +19,7 @@ on:
     workflow_dispatch:
         inputs:
             destroy:
-                description: 'Destroy the infrastructure'
+                description: 'Destroy the infrastructure?'
                 type: boolean
                 required: true
                 default: false
