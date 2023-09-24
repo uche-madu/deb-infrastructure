@@ -15,8 +15,6 @@ resource "kubernetes_secret" "airflow_webserver_secret" {
   data = {
     webserver-secret-key = data.google_secret_manager_secret_version.airflow_webserver_secret.secret_data
   }
-
-  depends_on = [helm_release.airflow]
 }
 
 # GitSync ssh key
