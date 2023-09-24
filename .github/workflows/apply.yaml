@@ -60,7 +60,6 @@ jobs:
     
         - name: Terraform Init
           id: init
-          if: github.event_name != 'workflow_dispatch'
           run: terraform init
     
         - name: Terraform Format
