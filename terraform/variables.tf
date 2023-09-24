@@ -59,11 +59,6 @@ variable "airflow_namespace" {
   type = string
 }
 
-variable "airflow_ssh_key_private" {
-  description = "Private SSH Key for Airflow Git Sync"
-  type        = string
-}
-
 # Cloud SQL
 variable "instance_name" {
   description = "Name for the sql instance database"
