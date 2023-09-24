@@ -60,18 +60,22 @@ jobs:
     
         - name: Terraform Init
           id: init
+          if: github.event_name != 'workflow_dispatch'
           run: terraform init
     
         - name: Terraform Format
           id: fmt
+          if: github.event_name != 'workflow_dispatch'
           run: terraform fmt -check
     
         - name: Terraform Validate
           id: validate
+          if: github.event_name != 'workflow_dispatch'
           run: terraform validate
     
         - name: Terraform Plan
           id: plan
+          if: github.event_name != 'workflow_dispatch'
           run: |
             terraform plan \
             -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
@@ -149,4 +153,8 @@ jobs:
     
         - name: Terraform Destroy (Manual Trigger)
           if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.destroy == 'true'
-          run: terraform destroy -auto-approve
+          run: |
+            terraform destroy \
+            -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
+            -input=false \
+            -auto-approve
