@@ -58,26 +58,19 @@ Finally, execute the script:
    ```
 
 2. Set the public key on the Airflow DAGs repository:
-    - Go to your application GitHub repository i.e. the repository that contains airflow DAGs.
+    - Go to your application GitHub repository i.e. the repository that contains airflow DAGs, not the one that contains terraform code.
     - Navigate to `Settings` > `Deploy keys`.
     - Click on `Add deploy key`.
     - Provide a title and paste the contents of `airflow_git_ssh_key.pub` into the Key field.
     - Check `allow write access`
     - Click `Add key`.
 
-3. Set Up GitHub Secrets with the private key
-    - Go to your application GitHub repository, i.e. the repository that contains airflow DAGs, and click on the `Settings` tab.
-    - In the left sidebar, click on `Secrets`.
-    - Click on `New repository secret` and add your secret. Name it `AIRFLOW_SSH_KEY_PRIVATE` (matching the variable name used in variables.tf and gcloud-secrets.tf, and the Github Actions workflow) and paste the content of your airflow_git_ssh_key file into the value field.
-    - Click `Add secret`
+3. Create Google Cloud Secret with the private key
+    - The setup.sh script handles this part
 
-4. (Optional) This project is designed to be run via CI/CD. But if running terraform via the local terminal, you'd could create an environment variable to pass the private key to `terraform plan` and `terraform apply`:
-    ```
-    export TF_VAR_AIRFLOW_SSH_KEY_PRIVATE="$(cat ~/airflow_git_ssh_key)"
-    ```
 
 ## Apply the Config
-The terraform config is to be applied via Github Actions, manually or on `pull request` to the `main` branch. Branch protection has been setup for the `main` branch to require that `commits` can only be made to a `feature` branch for `review` and pass `status checks` before being merged with the `main` branch through a `pull request`.
+The terraform config is to be applied via Github Actions, manually via `workflow_dispatch` or on `pull_request` to the `main` branch. Branch protection has been setup for the `main` branch to require that `commits` can only be made to a `feature` branch for `review` and pass `status checks` before being merged with the `main` branch through a `pull_request`.
 
 ```bash
 # Create a new branch
@@ -96,10 +89,14 @@ terraform init
 terraform fmt
 terraform validate
 terraform plan
-terraform apply --auto-approve
+terraform apply -auto-approve
 ```
-> [!NOTE]
-> This assumes that `TF_VAR_AIRFLOW_SSH_KEY_PRIVATE` has already been set as described above ⬆️.
+
+To delete resources run:
+```bash
+terraform destroy -auto-approve
+```
+
     
 ### Get Cluster Credentials
 * Fetch credentials for the running cluster. It updates a kubeconfig file (written to `HOME/.kube/config`) with appropriate credentials and endpoint information to point `kubectl` at the cluster.

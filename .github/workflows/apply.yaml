@@ -33,7 +33,7 @@ jobs:
                 working-directory: ./terraform
         
         env:
-            AIRFLOW_SSH_KEY_PRIVATE: ${{ secrets.AIRFLOW_SSH_KEY_PRIVATE }}
+          WORKING_DIR: ./terraform
 
         permissions:
             contents: 'read'
@@ -77,7 +77,6 @@ jobs:
           if: github.event_name != 'workflow_dispatch'
           run: |
             terraform plan \
-            -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
             -no-color \
             -input=false
           continue-on-error: true
@@ -123,7 +122,7 @@ jobs:
 
               </details>
 
-              *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+              *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.WORKING_DIR }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
               // 3. If we have a comment, update it, otherwise create a new one
               if (botComment) {
@@ -146,7 +145,6 @@ jobs:
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
           run: |
             terraform apply \
-            -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
             -input=false \
             -auto-approve 
     
@@ -154,6 +152,5 @@ jobs:
           if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.destroy == 'true'
           run: |
             terraform destroy \
-            -var="airflow_ssh_key_private=${{ env.AIRFLOW_SSH_KEY_PRIVATE }}" \
             -input=false \
             -auto-approve

@@ -147,4 +147,21 @@ check_and_create_wipool "deb-pool"
 # Check and create OIDC provider
 check_and_create_oidc_provider "deb-pool" "github-actions"
 
+
+# Create Google Secret from the private airflow_git_ssh_key in your local terminal
+
+# Check if the secret exists
+gcloud secrets describe airflow_ssh_key_private &> /dev/null
+
+# Check the exit status of the last command
+if [ $? -ne 0 ]; then
+    echo "Secret does not exist. Creating..."
+    gcloud secrets create airflow_ssh_key_private \
+        --replication-policy="automatic" \
+        --data-file="$HOME/airflow-ssh-key"
+else
+    echo "Secret already exists. Skipping creation."
+fi
+
+
 echo "Setup complete!"

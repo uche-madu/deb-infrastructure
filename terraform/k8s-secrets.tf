@@ -18,7 +18,7 @@ resource "kubernetes_secret" "airflow_ssh_secret" {
   }
 
   data = {
-    gitSshKey = var.airflow_ssh_key_private
+    gitSshKey = data.google_secret_manager_secret_version.airflow_ssh_key_private
   }
 }
 
