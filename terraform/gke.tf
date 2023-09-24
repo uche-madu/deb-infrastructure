@@ -61,9 +61,9 @@ resource "helm_release" "airflow" {
   # I had an "airflow" directory while the chart name is also "airflow". 
   # This is a general issue with the helm_release resource. 
   chart            = "airflow"
-  namespace        = var.airflow_namespace
+  namespace        = kubernetes_namespace.airflow.metadata[0].name
   version          = var.airflow_helm_version
-  create_namespace = true
+  create_namespace = false
   wait             = false # Setting to true would impair the wait-for-airflow-migrations container
 
   values = [file("${path.cwd}/airflow-helm-values/values-dev.yaml"), local.rendered_values]
