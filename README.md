@@ -66,7 +66,7 @@ Finally, execute the script:
     - Click `Add key`.
 
 3. Create Google Cloud Secret with the private key
-    - The setup.sh script handles this part
+    - The `setup.sh` script handles this part
 
 
 ## Apply the Config
@@ -105,21 +105,23 @@ terraform destroy -auto-approve
     >  Use the `-raw` flag to eliminate quotes from `terraform output`:
     
     ```
-     gcloud container clusters get-credentials $(terraform output -raw gke_cluster_name) --location=$(terraform output -raw gke_cluster_location)
-     ```
+    gcloud container clusters get-credentials $(terraform output -raw gke_cluster_name) --location=$(terraform output -raw gke_cluster_location)
+    ```
 
 * Run this command to retrieve the load balancer external IP address and port from the airflow namespace.
     ```
-     kubectl get service/airflow-webserver -n airflow
+    kubectl get service/airflow-webserver -n airflow
     ```
   The output would look similar to this:
 
     ```bash
-    NAME                TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)          AGE
-    airflow-webserver   LoadBalancer   10.10.21.86   34.41.35.207   8080:32182/TCP   60m
+    NAME                TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+    airflow-webserver   LoadBalancer   10.10.21.123   34.42.45.72   8080:31560/TCP   42m
     ```
-* Paste the external-ip:port (in this case: `34.41.35.207:8080`) in your browser then login to Airflow with the default `username` and `password` (`admin` and `admin`)
-
+* Paste the external-ip:port (in this case: `34.42.45.72:8080`) in your browser then login to Airflow with the default `username` and `password` (`admin` and `admin`)
+* Alternatively, from the navigation menu of the Google Cloud Console > `Kubernetes Engine` > `Services & Ingress` click the airflow-webserver endpoint:
+  
+![gke-services](https://github.com/uche-madu/deb-infrastructure/assets/29081638/5899471a-fc80-4a69-bdbb-1cd9d97f0ba4)
 
 ***👍 With that, the infrastructure setup is complete. The rest of the project will be completed from the [DEB Application repository](https://github.com/uche-madu/deb-application).***
 
@@ -132,7 +134,8 @@ terraform destroy -auto-approve
 
 As in the screenshot below, if you get the `Error: Error acquiring the state lock` while running terraform, which could happen when two workflows runs run at the same time trying to access the terraform state at the same time, run the following command:
 
-![Terraform State Lock Error](https://user-images.githubusercontent.com/29081638/270152126-0668c975-6e2d-406a-b1a9-c4267ac64ca3.png)
+![terraform-state-lock](https://github.com/uche-madu/deb-infrastructure/assets/29081638/a36d410c-cde0-41ca-8423-fc9d60fe05a3)
+
 
 ```
 terraform force-unlock -force LOCK_ID
