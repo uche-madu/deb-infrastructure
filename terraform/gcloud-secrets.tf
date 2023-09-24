@@ -54,3 +54,11 @@ data "google_secret_manager_secret_version" "airflow_webserver_secret" {
 
   depends_on = [google_secret_manager_secret_version.airflow_webserver_secret_v1]
 }
+
+# GitSync Ssh key
+# Fetch the latest version of the secret. The secret was created in setup.sh
+data "google_secret_manager_secret_version" "airflow_ssh_key_private" {
+  secret  = "airflow_ssh_key_private"
+  version = "latest"
+}
+
