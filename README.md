@@ -128,4 +128,18 @@ terraform destroy -auto-approve
 - ⚠️ To destroy the infrastructure at any time, utilize the workflow_dispatch trigger from the Actions page. You might have to trigger the workflow multiple times to destroy it all.
 - ⚠️ The persistent volume claim for the Airflow Triggerer does not get deleted by the workflow. Do that manually from the Google Cloud console.
 
+### Debugging Terraform
+
+As in the screenshot below, if you get the `Error: Error acquiring the state lock` while running terraform, which could happen when two workflows runs run at the same time trying to access the terraform state at the same time, run the following command:
+
+![Terraform State Lock Error](https://user-images.githubusercontent.com/29081638/270152126-0668c975-6e2d-406a-b1a9-c4267ac64ca3.png)
+
+```
+terraform force-unlock -force LOCK_ID
+```
+For example:
+```
+terraform force-unlock -force 1695529512488132
+```
+
   

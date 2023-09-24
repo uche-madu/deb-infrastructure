@@ -122,7 +122,7 @@ jobs:
 
               </details>
 
-              *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.WORKING_DIR }}\`, Workflow: \`${{ github.workflow }}\`*`;
+              *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.WORKING_DIR }}\`, Workflow: \`${{ github.workflow }}\`, Pull Request Number: \`${{ github.event_name.pull_request.number }}\`*`;
 
               // 3. If we have a comment, update it, otherwise create a new one
               if (botComment) {
