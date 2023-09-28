@@ -2,13 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: argocd
-  namespace: argocd
 spec:
   destination:
-    namespace: airflow
+    namespace: argocd
     server: https://kubernetes.default.svc
   source:
-    path: ./argocd-apps/app-of-apps
+    path: ./argocd-app/app-of-apps
     repoURL: git@github.com:uche-madu/deb-infrastructure.git
     targetRevision: HEAD
   project: default
