@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: airflow
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://airflow.apache.org
+      chart: airflow
+      targetRevision: 1.10.0
+      helm:
+        valueFiles:
+          - $values/terraform/airflow-helm-values/values-dev.yaml
+          - $values/terraform/airflow-helm-values/values.override.yaml.tftpl
+    - repoURL: git@github.com:uche-madu/deb-infrastructure.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: airflow

@@ -27,6 +27,12 @@ output "private_ip_address" {
   value       = module.sql-db.private_ip_address
 }
 
+output "db_password" {
+  description = "The password of the metadata database"
+  value       = data.google_secret_manager_secret_version.db_user_pass.secret_data
+  sensitive   = true
+}
+
 output "sql_instance_self_link" {
   description = "Self link of the Cloud SQL instance."
   value       = module.sql-db.instance_self_link
