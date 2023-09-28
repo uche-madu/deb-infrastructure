@@ -49,25 +49,37 @@ module "gke" {
   }
 }
 
-# Helm Airflow
-resource "helm_release" "airflow" {
-  name       = "airflow"
-  repository = "https://airflow.apache.org"
+resource "helm_release" "argocd" {
+  name       = "argocd"
+  namespace  = var.argocd_namespace
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+  version    = "5.46.7"
 
-  # Previously had to pull the helm chart via the CLI locally and reference 
-  # the local directory ("./airflow") here because the Chart.yaml file in the 
-  # remote repo was missing (probably a provider issue).
-  # The fix was to ensure there was no directory with the same name as the chart.
-  # I had an "airflow" directory while the chart name is also "airflow". 
-  # This is a general issue with the helm_release resource. 
-  chart            = "airflow"
-  namespace        = kubernetes_namespace.airflow.metadata[0].name
-  version          = var.airflow_helm_version
-  create_namespace = false
-  wait             = false # Setting to true would impair the wait-for-airflow-migrations container
-
-  values = [file("${path.cwd}/airflow-helm-values/values-dev.yaml"), local.rendered_values]
-
-  depends_on = [module.gke.endpoint]
-
+  values = [
+    file("${path.module}/../argocd-app/values.yaml")
+  ]
 }
+
+# Helm Airflow
+# resource "helm_release" "airflow" {
+#   name       = "airflow"
+#   repository = "https://airflow.apache.org"
+
+#   # Previously had to pull the helm chart via the CLI locally and reference 
+#   # the local directory ("./airflow") here because the Chart.yaml file in the 
+#   # remote repo was missing (probably a provider issue).
+#   # The fix was to ensure there was no directory with the same name as the chart.
+#   # I had an "airflow" directory while the chart name is also "airflow". 
+#   # This is a general issue with the helm_release resource. 
+#   chart            = "airflow"
+#   namespace        = kubernetes_namespace.airflow.metadata[0].name
+#   version          = var.airflow_helm_version
+#   create_namespace = false
+#   wait             = false # Setting to true would impair the wait-for-airflow-migrations container
+
+#   values = [file("${path.cwd}/airflow-helm-values/values-dev.yaml"), local.rendered_values]
+
+#   depends_on = [module.gke.endpoint]
+
+# }

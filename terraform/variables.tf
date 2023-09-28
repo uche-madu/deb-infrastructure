@@ -51,11 +51,15 @@ variable "disable_dependent_services" {
   type = bool
 }
 
-# Helm Airflow
+# Helm
 variable "airflow_helm_version" {
   type = string
 }
 variable "airflow_namespace" {
+  type = string
+}
+
+variable "argocd_namespace" {
   type = string
 }
 
@@ -73,6 +77,10 @@ variable "airflow_database" {
 }
 
 variable "db_user" {
+  type = string
+}
+
+variable "db_port" {
   type = string
 }
 

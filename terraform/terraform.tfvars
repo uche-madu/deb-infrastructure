@@ -18,13 +18,15 @@ enable_apis                 = true
 disable_services_on_destroy = false
 disable_dependent_services  = false
 
-# Helm Airflow
+# Helm
 airflow_helm_version = "1.10.0"
 airflow_namespace    = "airflow"
+argocd_namespace     = "argocd"
 
 # Cloud SQL
 db_tier          = "db-f1-micro"
 airflow_database = "deb-airflow-db"
 db_user          = "postgres0"
+db_port          = 5432
 db_disk_size_gb  = 10
 instance_name    = "deb-sql-instance"
