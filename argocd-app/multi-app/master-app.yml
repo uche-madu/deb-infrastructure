@@ -10,7 +10,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: ./argocd-app/app-of-apps
-    repoURL: 'git@github.com:uche-madu/deb-infrastructure.git'
+    repoURL: https://github.com/uche-madu/deb-infrastructure/
     targetRevision: HEAD
   project: default
   syncPolicy:

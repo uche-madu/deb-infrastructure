@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:uche-madu/deb-infrastructure.git
+    repoURL: https://github.com/uche-madu/deb-infrastructure/
     path: helm-charts/airflow
     targetRevision: HEAD
     helm:
