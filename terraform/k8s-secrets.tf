@@ -35,7 +35,7 @@ resource "kubernetes_secret" "argocd_ssh_secret" {
   }
 }
 
-# Airflow Provider Connections
+# Airflow Provider Connection
 resource "kubernetes_secret" "airflow_gcp_connection" {
   metadata {
     name      = "airflow-gcp-connection"
