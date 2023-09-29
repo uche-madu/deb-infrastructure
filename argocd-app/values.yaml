@@ -4,9 +4,10 @@ server:
   extraArgs:
     - --insecure=false
 configs:
-  credentialTemplates:
-    ssh-creds:
-      url: git@github.com/uche-madu
+  repositories:
+    - url: ssh://git@github.com/uche-madu
       sshPrivateKeySecret:
         name: argocd-ssh-secret
         key: sshPrivateKey
+
+    
