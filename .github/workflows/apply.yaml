@@ -8,8 +8,8 @@ on:
             - 'terraform/**'
             - '.github/workflows/**'
             - '!**/README.md'
-            - 'argocd-app/values.yaml'
             - '!argocd-app/**'
+            - 'argocd-app/values.yaml'
     pull_request:
         branches:
             - main
@@ -17,8 +17,8 @@ on:
             - 'terraform/**'
             - '.github/workflows/**'
             - '!**/README.md'
-            - 'argocd-app/values.yaml'
             - '!argocd-app/**'
+            - 'argocd-app/values.yaml'
 
     workflow_dispatch:
         inputs:
