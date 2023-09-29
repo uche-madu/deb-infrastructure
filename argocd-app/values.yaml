@@ -1,17 +1,39 @@
 server:
   service:
     type: LoadBalancer
-  extraArgs:
-    - --insecure=false
-configs:
-  credentialTemplates:
-    ssh-creds:
-      url: ssh://git@github.com/uche-madu
-      sshPrivateKeySecret:
-        name: ssh-key-secret
-        key: sshPrivateKey
+  additionalApplications:
+    - apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: app-of-apps
+        finalizers:
+          - resources-finalizer.argocd.argoproj.io
+      spec:
+        destination:
+          namespace: argocd
+          server: 'https://kubernetes.default.svc'
+        source:
+          path: ./argocd-app/app-of-apps
+          repoURL: https://github.com/uche-madu/deb-infrastructure/
+          targetRevision: HEAD
+        project: default
+        syncPolicy:
+          automated:
+            prune: true
+            selfHeal: true
+    
 
-  repositories:
-    deb-infra-repo:
-      url: ssh://git@github.com/uche-madu/deb-infrastructure.git
-      type: git
+  # extraArgs:
+  #   - --insecure=false
+# configs:
+#   credentialTemplates:
+#     ssh-creds:
+#       url: ssh://git@github.com/uche-madu
+#       sshPrivateKeySecret:
+#         name: ssh-key-secret
+#         key: sshPrivateKey
+
+#   repositories:
+#     deb-infra-repo:
+#       url: ssh://git@github.com/uche-madu/deb-infrastructure.git
+#       type: git
