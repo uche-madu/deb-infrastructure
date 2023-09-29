@@ -6,14 +6,12 @@ server:
 configs:
   credentialTemplates:
     ssh-creds:
-      url: git@github.com:uche-madu
+      url: ssh://git@github.com/uche-madu
       sshPrivateKeySecret:
         name: ssh-key-secret
         key: sshPrivateKey
 
   repositories:
     deb-infra-repo:
-      url: git@github.com/uche-madu/deb-infrastructure.git
+      url: ssh://git@github.com/uche-madu/deb-infrastructure.git
       type: git
-
-    
