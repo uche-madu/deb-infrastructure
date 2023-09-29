@@ -52,16 +52,39 @@ Finally, execute the script:
   ```
 
 ## Create SSH Keys to Set Up Git-Sync for Airflow DAGs
-1. Run this to generate two files: `airflow_git_ssh_key` (private key) and `airflow_git_ssh_key.pub` (public key):
+1. Run this to generate two files: `airflow-ssh-key` (private key) and `airflow-ssh-key.pub` (public key):
    ```
-   ssh-keygen -t rsa -b 4096 -f ~/airflow_git_ssh_key
+   ssh-keygen -t rsa -b 4096 -f ~/airflow-ssh-key
    ```
 
 2. Set the public key on the Airflow DAGs repository:
     - Go to your application GitHub repository i.e. the repository that contains airflow DAGs, not the one that contains terraform code.
     - Navigate to `Settings` > `Deploy keys`.
     - Click on `Add deploy key`.
-    - Provide a title and paste the contents of `airflow_git_ssh_key.pub` into the Key field.
+    - Provide a title and paste the contents of `airflow-ssh-key.pub` into the Key field. You can access the content of `airflow-ssh-key.pub` by running:
+      ```
+      cat ~/airflow_git_ssh_key.pub
+      ```
+    - Check `allow write access`
+    - Click `Add key`.
+
+3. Create Google Cloud Secret with the private key
+    - The `setup.sh` script handles this part
+
+## Create SSH Keys to Set Up ArgoCD Repo Connection
+1. Similarly, run this to generate two files: `argocd_ssh_key` (private key) and `argocd_ssh_key.pub` (public key):
+   ```
+   ssh-keygen -t rsa -b 4096 -f ~/argocd_ssh_key
+   ```
+
+2. Set the public key on the Infrastructure repository:
+    - Go to your infrastrucute GitHub repository i.e. the repository that contains that contains terraform code equivalent to this one.
+    - Navigate to `Settings` > `Deploy keys`.
+    - Click on `Add deploy key`.
+    - Provide a title and paste the contents of `argocd_ssh_key.pub` into the Key field. You can access the content of `argocd_ssh_key.pub` by running:
+      ```
+      cat ~/argocd_ssh_key.pub
+      ```
     - Check `allow write access`
     - Click `Add key`.
 

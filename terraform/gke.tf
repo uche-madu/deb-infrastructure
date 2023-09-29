@@ -56,6 +56,8 @@ resource "helm_release" "argocd" {
   chart      = "argo-cd"
   version    = "5.46.7"
 
+  depends_on = [module.gke.endpoint]
+
   values = [
     file("${path.module}/../argocd-app/values.yaml")
   ]
