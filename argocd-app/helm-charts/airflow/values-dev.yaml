@@ -23,45 +23,11 @@ images:
 executor: KubernetesExecutor
 
 extraEnvFrom: |
-  # - secretRef:
-  #     name: db-password
-  # - configMapRef:
-  #     name: db-config
   - secretRef:
       name: airflow-gcp-connection
   
-# Creating from kubernetes secrets and 
-# configmaps instead as referenced in extraEnvFrom
 data:
-  metadataConnection:
-    user:
-      configMapKeyRef:
-        name: db-config
-        key: user
-    pass: 
-      secretKeyRef:
-        name: db-password
-        key: db-password
-    protocol:
-      configMapKeyRef:
-        name: db-config
-        key: protocol
-    host: 
-      configMapKeyRef:
-        name: db-config
-        key: host
-    port:
-      configMapKeyRef:
-        name: db-config
-        key: port
-    db:
-      configMapKeyRef:
-        name: db-config
-        key: db
-    sslmode:
-      configMapKeyRef:
-        name: db-config
-        key: sslmode
+  metadataSecretName: airflow-db-connection-secret
 
 # Git sync
 dags:
