@@ -4,10 +4,16 @@ server:
   extraArgs:
     - --insecure=false
 configs:
-  repositories:
-    - url: ssh://git@github.com/uche-madu
+  credentialTemplates:
+    ssh-creds:
+      url: git@github.com:uche-madu
       sshPrivateKeySecret:
-        name: argocd-ssh-secret
+        name: ssh-key-secret
         key: sshPrivateKey
+
+  repositories:
+    deb-infra-repo:
+      url: git@github.com/uche-madu/deb-infrastructure.git
+      type: git
 
     
