@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Running setup to create a GCS bucket to be used as the remote backend for terraform state, service account with necessary roles, and setup workflow identity federation..."
+echo "Running setup to create a GCS bucket to be used as the remote backend for terraform state, service account with necessary roles, and setup workflow identity federation and secrets..."
 
 # Retrieve the project ID
 export PROJECT_ID=$(gcloud config get-value project)
@@ -148,20 +148,28 @@ check_and_create_wipool "deb-pool"
 check_and_create_oidc_provider "deb-pool" "github-actions"
 
 
-# Create Google Secret from the private airflow_git_ssh_key in your local terminal
+# Create Google Secrets from the private keys in your local terminal
+# Function to create a Google Cloud secret if it does not already exist
+create_secret() {
+    local secret_name=$1
+    local file_path=$2
 
-# Check if the secret exists
-gcloud secrets describe airflow_ssh_key_private &> /dev/null
+    # Check if the secret exists
+    gcloud secrets describe "$secret_name" &> /dev/null
 
-# Check the exit status of the last command
-if [ $? -ne 0 ]; then
-    echo "Secret does not exist. Creating..."
-    gcloud secrets create airflow_ssh_key_private \
-        --replication-policy="automatic" \
-        --data-file="$HOME/airflow-ssh-key"
-else
-    echo "Secret already exists. Skipping creation."
-fi
+    # Check the exit status of the last command
+    if [ $? -ne 0 ]; then
+        echo "Secret $secret_name does not exist. Creating..."
+        gcloud secrets create "$secret_name" \
+            --replication-policy="automatic" \
+            --data-file="$file_path"
+    else
+        echo "Secret $secret_name already exists. Skipping creation."
+    fi
+}
 
+# Usage of the create_secret function
+create_secret "airflow_ssh_key_private" "$HOME/airflow-ssh-key"
+create_secret "argocd_ssh_key_private" "$HOME/argocd_ssh_key"
 
 echo "Setup complete!"

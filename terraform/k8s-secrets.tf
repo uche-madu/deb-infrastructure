@@ -11,7 +11,7 @@ resource "kubernetes_secret" "airflow_webserver_secret" {
   }
 }
 
-# GitSync ssh key
+# GitSync Ssh Key
 resource "kubernetes_secret" "airflow_ssh_secret" {
   metadata {
     name      = "airflow-ssh-secret"
@@ -20,6 +20,18 @@ resource "kubernetes_secret" "airflow_ssh_secret" {
 
   data = {
     gitSshKey = data.google_secret_manager_secret_version.airflow_ssh_key_private.secret_data
+  }
+}
+
+# ArgoCD Ssh Key
+resource "kubernetes_secret" "argocd_ssh_secret" {
+  metadata {
+    name      = "argocd-ssh-secret"
+    namespace = kubernetes_namespace.argocd.metadata[0].name
+  }
+
+  data = {
+    sshPrivateKey = data.google_secret_manager_secret_version.argocd_ssh_key_private.secret_data
   }
 }
 

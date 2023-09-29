@@ -1,9 +1,12 @@
-
 server:
-  replicas: 1
   service:
     type: LoadBalancer
-  # extraArgs:
-  #     - --insecure
-
-
+  extraArgs:
+    - --insecure=false
+configs:
+  credentialTemplates:
+    ssh-creds:
+      url: git@github.com/uche-madu
+      sshPrivateKeySecret:
+        name: argocd-ssh-secret
+        key: sshPrivateKey

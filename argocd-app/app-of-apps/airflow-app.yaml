@@ -5,17 +5,19 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources:
-    - repoURL: https://airflow.apache.org
-      chart: airflow
-      targetRevision: 1.10.0
-      helm:
-        valueFiles:
-          - $values/argocd-app/manifests/airflow/values-dev.yaml
-    - repoURL: git@github.com:uche-madu/deb-infrastructure.git
-      targetRevision: HEAD
-      ref: values
+  source:
+    repoURL: git@github.com:uche-madu/deb-infrastructure.git
+    path: helm-charts/airflow
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: airflow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    
     

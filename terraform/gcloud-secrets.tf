@@ -62,3 +62,8 @@ data "google_secret_manager_secret_version" "airflow_ssh_key_private" {
   version = "latest"
 }
 
+# ArgoCD Ssh key
+data "google_secret_manager_secret_version" "argocd_ssh_key_private" {
+  secret  = "argocd_ssh_key_private"
+  version = "latest"
+}
