@@ -48,14 +48,18 @@ resource "kubernetes_secret" "airflow_gcp_connection" {
 }
 
 # Airflow metadataConnection
-resource "kubernetes_secret" "airflow_db_password" {
+locals {
+  connection_url = "postgresql+psycopg2://${var.db_user}:${data.google_secret_manager_secret_version.db_user_pass.secret_data}@${module.sql-db.private_ip_address}:${var.db_port}/${var.airflow_database}"
+}
+
+resource "kubernetes_secret" "airflow_db_connection_secret" {
   metadata {
-    name      = "db-password"
+    name      = "airflow-db-connection-secret"
     namespace = kubernetes_namespace.airflow.metadata[0].name
   }
 
   data = {
-    db-password = data.google_secret_manager_secret_version.db_user_pass.secret_data
+    connection = local.connection_url
   }
 }
 
