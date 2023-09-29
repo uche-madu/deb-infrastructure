@@ -49,19 +49,19 @@ module "gke" {
   }
 }
 
-resource "helm_release" "argocd" {
-  name       = "argocd"
-  namespace  = var.argocd_namespace
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo-cd"
-  version    = "5.46.7"
+# resource "helm_release" "argocd" {
+#   name       = "argocd"
+#   namespace  = var.argocd_namespace
+#   repository = "https://argoproj.github.io/argo-helm"
+#   chart      = "argo-cd"
+#   version    = "5.46.7"
 
-  depends_on = [module.gke.endpoint]
+#   depends_on = [module.gke.endpoint]
 
-  values = [
-    file("${path.module}/../argocd-app/values.yaml")
-  ]
-}
+#   values = [
+#     file("${path.module}/../argocd-app/values.yaml")
+#   ]
+# }
 
 # Helm Airflow
 # resource "helm_release" "airflow" {
