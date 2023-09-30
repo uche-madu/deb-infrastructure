@@ -41,10 +41,16 @@ module "gke" {
     },
   ]
 
+  # https://cloud.google.com/artifact-registry/docs/access-control
+  # https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#:~:text=the%20node%20identity.-,Scopes%20options.,-%2D%2Dscopes%3D%5BSCOPE
+  # Note that storage-ro scope is required to pull images from artifact registry
+  # (the custom airflow image in this project's use-case) 
+  # Note that adding a new scope would recreate the node pool
   node_pools_oauth_scopes = {
     all = [
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
+      "storage-ro",
     ]
   }
 }
