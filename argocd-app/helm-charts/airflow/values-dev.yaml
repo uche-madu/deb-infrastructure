@@ -15,7 +15,7 @@ airflowVersion: "2.7.1"
 images:
   airflow:
     repository: us-central1-docker.pkg.dev/wizeline-deb/deb-capstone-airflow-gke/airflow2.7.1-custom
-    tag: ee223857
+    tag: c29007b7
     # Specifying digest takes precedence over tag.
     digest: ~
     pullPolicy: IfNotPresent
