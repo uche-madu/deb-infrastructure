@@ -2,8 +2,8 @@ server:
   service:
     type: LoadBalancer
   extraArgs:
-    - --insecure
-  
+    - --insecure=true   
+
 
 # configs:
 #   credentialTemplates:
