@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: git@github.com:uche-madu/deb-infrastructure.git
-    targetRevision: main
+    targetRevision: HEAD
     chart: argocd-app/my-airflow
   destination:
     server: https://kubernetes.default.svc
