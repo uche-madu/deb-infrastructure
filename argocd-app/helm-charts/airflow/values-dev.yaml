@@ -14,18 +14,28 @@ airflowVersion: "2.7.1"
 # Images
 images:
   airflow:
-    repository: us-central1-docker.pkg.dev/wizeline-deb/deb-capstone-airflow-gke/airflow2.7.1-custom
-    tag: ee223857
+    # To be replaced automatically by the Github Actions CICD workflow
+    # in the DEB Application repository
+    repository: ~
+    tag: ~
     # Specifying digest takes precedence over tag.
     digest: ~
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
+
+# Add common labels to all objects and pods defined in this chart.
+labels:
+  environment: dev
 
 executor: KubernetesExecutor
 
-extraEnvFrom: |
-  - secretRef:
-      name: airflow-gcp-connection
-  
+# Provider Connections
+# https://airflow.apache.org/docs/helm-chart/stable/adding-connections-and-variables.html#connections-and-sensitive-environment-variables
+secret:
+  - envName: "AIRFLOW_CONN_GCP"
+    secretName: "airflow-gcp-connection"
+    secretKey: "AIRFLOW_CONN_GCP"
+
+# Postgresql DB Connection  
 data:
   metadataSecretName: airflow-db-connection-secret
 
@@ -43,14 +53,7 @@ dags:
     knownHosts: |
       github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=
   
-# extraSecrets:
-#   airflow-ssh-secret:
-#     data:
-#       gitSshKey: ~
 
-
-# Flask secret key for Airflow Webserver: `[webserver] secret_key` in airflow.cfg
-# webserverSecretKey: ~
 webserverSecretKeySecretName: "airflow-webserver-secret"
 
 
@@ -93,3 +96,5 @@ createUserJob:
 migrateDatabaseJob:
   useHelmHooks: false
   applyCustomEnv: false
+  jobAnnotations:
+        "argocd.argoproj.io/hook": Sync

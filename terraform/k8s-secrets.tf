@@ -23,18 +23,6 @@ resource "kubernetes_secret" "airflow_ssh_secret" {
   }
 }
 
-# ArgoCD Ssh Key
-resource "kubernetes_secret" "argocd_ssh_secret" {
-  metadata {
-    name      = "argocd-ssh-secret"
-    namespace = kubernetes_namespace.argocd.metadata[0].name
-  }
-
-  data = {
-    sshPrivateKey = data.google_secret_manager_secret_version.argocd_ssh_key_private.secret_data
-  }
-}
-
 # Airflow Provider Connection
 resource "kubernetes_secret" "airflow_gcp_connection" {
   metadata {
@@ -49,7 +37,7 @@ resource "kubernetes_secret" "airflow_gcp_connection" {
 
 # Airflow metadataConnection
 locals {
-  connection_url = "postgresql+psycopg2://${var.db_user}:${data.google_secret_manager_secret_version.db_user_pass.secret_data}@${module.sql-db.private_ip_address}:${var.db_port}/${var.airflow_database}"
+  connection_url = "postgresql://${var.db_user}:${data.google_secret_manager_secret_version.db_user_pass.secret_data}@${module.sql-db.private_ip_address}:${var.db_port}/${var.airflow_database}"
 }
 
 resource "kubernetes_secret" "airflow_db_connection_secret" {
@@ -62,5 +50,58 @@ resource "kubernetes_secret" "airflow_db_connection_secret" {
     connection = local.connection_url
   }
 }
+
+
+# ArgoCD Ssh Key
+resource "kubernetes_secret" "argocd_ssh_secret" {
+  metadata {
+    name      = "argocd-ssh-secret"
+    namespace = kubernetes_namespace.argocd.metadata[0].name
+  }
+
+  data = {
+    sshPrivateKey = data.google_secret_manager_secret_version.argocd_ssh_key_private.secret_data
+  }
+}
+
+# ArgoCD Repo Credentials
+resource "kubernetes_secret" "argoproj_ssh_creds" {
+  metadata {
+    name      = "argoproj-ssh-creds"
+    namespace = "argocd"
+    labels = {
+      "argocd.argoproj.io/secret-type" = "repo-creds"
+    }
+  }
+
+  data = {
+    url           = "git@github.com:uche-madu"
+    type          = "git"
+    sshPrivateKey = data.google_secret_manager_secret_version.argocd_ssh_key_private.secret_data
+  }
+
+  type = "Opaque"
+}
+
+# ArgoCD: Ssh Connection to the deb-infrastructure repo
+resource "kubernetes_secret" "infra_ssh_repo" {
+  metadata {
+    name      = "infra-ssh-repo"
+    namespace = "argocd"
+    labels = {
+      "argocd.argoproj.io/secret-type" = "repository"
+    }
+  }
+
+  data = {
+    url = "git@github.com/uche-madu/deb-infrastructure"
+  }
+
+  type = "Opaque"
+}
+
+
+
+
 
 
