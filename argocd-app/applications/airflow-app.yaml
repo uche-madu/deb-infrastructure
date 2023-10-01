@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/uche-madu/deb-infrastructure
+    repoURL: git@github.com:uche-madu/deb-infrastructure.git
     targetRevision: HEAD
     chart: argocd-app/my-airflow
   destination:

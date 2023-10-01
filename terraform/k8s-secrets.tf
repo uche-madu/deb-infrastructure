@@ -94,7 +94,7 @@ resource "kubernetes_secret" "infra_ssh_repo" {
   }
 
   data = {
-    url = "git@github.com/uche-madu/deb-infrastructure"
+    url = "git@github.com:uche-madu/deb-infrastructure.git"
   }
 
   type = "Opaque"
