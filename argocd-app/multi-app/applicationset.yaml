@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: app-of-apps
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  generators:
+  - list:
+      items:
+      - name: app-of-apps
+  template:
+    metadata:
+      name: '{{name}}'
+    spec:
+      destination:
+        namespace: argocd
+        server: 'https://kubernetes.default.svc'
+      source:
+        path: ./argocd-app/applications
+        repoURL: git@github.com:uche-madu/deb-infrastructure.git
+        targetRevision: HEAD
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

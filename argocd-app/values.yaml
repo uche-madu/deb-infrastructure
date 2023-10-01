@@ -2,24 +2,8 @@ server:
   service:
     type: LoadBalancer
   extraArgs:
-    - --insecure=false
-
-  # additionalApplications:
-  #   - namespace: argocd
-  #     destination:
-  #       namespace: argocd
-  #       server: 'https://kubernetes.default.svc'
-  #     source:
-  #       path: ./argocd-app/app-of-apps
-  #       repoURL: https://github.com/uche-madu/deb-infrastructure/
-  #       targetRevision: HEAD
-  #     project: default
-  #     syncPolicy:
-  #       automated:
-  #         prune: true
-  #         selfHeal: true
-    
-
+    - --insecure
+  
 
 # configs:
 #   credentialTemplates:

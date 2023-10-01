@@ -131,6 +131,18 @@ terraform destroy -auto-approve
     gcloud container clusters get-credentials $(terraform output -raw gke_cluster_name) --location=$(terraform output -raw gke_cluster_location)
     ```
 
+### Build the Custom Airflow Image
+Now that the required cloud resources are up and running, thanks to Terraform, it's time to trigger the build and push of the custom Airflow image from the [DEB Application repository](https://github.com/uche-madu/deb-application). Clone that repository and follow the instructions in the README.md to setup your application repo and build the image. Once that is complete, move on to login to the ArgoCD UI as described next.
+
+### Login to the ArgoCD UI
+* Obtain the initial `admin` password
+  ```
+  kubectl -n argocd get secret argocd-initial-admin-secret -o json | jq .data.password -r | base64 -d; echo
+  ```
+* From the from the navigation menu of the Google Cloud Console > `Kubernetes Engine` > `Services & Ingress` click the argocd-server endpoint. E.g. https://34.41.120.156:80
+* Create a new ArgoCD App of Apps Application with the manifest in `argocd-app/multi-app/master-app.yml`. This triggers the creation of Airflow from the helm chart.
+
+### Login to the Airflow UI
 * Run this command to retrieve the load balancer external IP address and port from the airflow namespace.
     ```
     kubectl get service/airflow-webserver -n airflow
@@ -155,7 +167,7 @@ terraform destroy -auto-approve
 
 ### Debugging Terraform
 
-As in the screenshot below, if you get the `Error: Error acquiring the state lock` while running terraform, which could happen when two workflows runs run at the same time trying to access the terraform state at the same time, run the following command:
+1. As in the screenshot below, if you get the `Error: Error acquiring the state lock` while running terraform, which could happen when two workflows runs run at the same time trying to access the terraform state at the same time, run the following command:
 
 ![terraform-state-lock](https://github.com/uche-madu/deb-infrastructure/assets/29081638/a36d410c-cde0-41ca-8423-fc9d60fe05a3)
 
@@ -168,4 +180,34 @@ For example:
 terraform force-unlock -force 1695529512488132
 ```
 
-  
+2. Terraform destroy might fail due to the kubernetes_namespace.argocd resource being stuck in a terminating stage. Here's how to get it unstuck from your terminal and complete terraform destroy.
+  - Find out details about the stuck argocd namespace:
+    ```
+    kubectl describe ns argocd
+    ```
+    The output would be similar to this:
+    ```
+    Name:         argocd
+    Labels:       kubernetes.io/metadata.name=argocd
+    Annotations:  <none>
+    Status:       Terminating
+    Conditions:
+      Type                                         Status  LastTransitionTime               Reason                Message
+      ----                                         ------  ------------------               ------                -------
+      NamespaceDeletionDiscoveryFailure            False   Sat, 30 Sep 2023 19:50:26 +0100  ResourcesDiscovered   All resources successfully discovered
+      NamespaceDeletionGroupVersionParsingFailure  False   Sat, 30 Sep 2023 19:50:26 +0100  ParsedGroupVersions   All legacy kube types successfully parsed
+      NamespaceDeletionContentFailure              False   Sat, 30 Sep 2023 19:50:26 +0100  ContentDeleted        All content successfully deleted, may be waiting on finalization
+      NamespaceContentRemaining                    True    Sat, 30 Sep 2023 19:50:26 +0100  SomeResourcesRemain   Some resources are remaining: applications.argoproj.io has 1 resource instances
+      NamespaceFinalizersRemaining                 True    Sat, 30 Sep 2023 19:50:26 +0100  SomeFinalizersRemain  Some content in the namespace has finalizers remaining: resources-finalizer.argocd.argoproj.io/foreground in 1 resource instances
+
+    No resource quota.
+
+    No LimitRange resource.
+    ```
+  - Notice the message: `applications.argoproj.io has 1 resource instances
+      NamespaceFinalizersRemaining`
+  - Edit the resource to remove the finalizers, in this case, the line with `resources-finalizer.argocd.argoproj.io/foreground`:
+    ```
+    kubectl edit applications.argoproj.io -n argocd
+    ```
+  - Trigger terraform destroy again from the Github Actions workflow. Success! Hopefully.

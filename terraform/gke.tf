@@ -16,14 +16,16 @@ module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google"
   version = "~> 27.0.0"
 
-  project_id        = module.vpc.project_id
-  name              = "${var.gke_cluster}-${random_id.suffix.hex}"
-  region            = var.region
-  zones             = [var.zone]
-  network           = module.vpc.network_name
-  subnetwork        = module.vpc.subnets_names[0]
-  ip_range_pods     = "deb-sub1-secondary-gke-pods"
-  ip_range_services = "deb-sub1-secondary-gke-services"
+  project_id            = module.vpc.project_id
+  name                  = "${var.gke_cluster}-${random_id.suffix.hex}"
+  region                = var.region
+  zones                 = [var.zone]
+  network               = module.vpc.network_name
+  subnetwork            = module.vpc.subnets_names[0]
+  ip_range_pods         = "deb-sub1-secondary-gke-pods"
+  ip_range_services     = "deb-sub1-secondary-gke-services"
+  identity_namespace    = "enabled"
+  grant_registry_access = true
 
   node_pools = [
     {
@@ -43,14 +45,10 @@ module "gke" {
 
   # https://cloud.google.com/artifact-registry/docs/access-control
   # https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#:~:text=the%20node%20identity.-,Scopes%20options.,-%2D%2Dscopes%3D%5BSCOPE
-  # Note that storage-ro scope is required to pull images from artifact registry
-  # (the custom airflow image in this project's use-case) 
   # Note that adding a new scope would recreate the node pool
   node_pools_oauth_scopes = {
     all = [
-      "https://www.googleapis.com/auth/logging.write",
-      "https://www.googleapis.com/auth/monitoring",
-      "storage-ro",
+      "cloud-platform",
     ]
   }
 }

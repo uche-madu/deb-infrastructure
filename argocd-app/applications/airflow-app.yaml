@@ -3,15 +3,14 @@ kind: Application
 metadata:
   name: airflow
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://github.com/uche-madu/deb-infrastructure/
-    path: argocd-app/helm-charts/airflow
-    targetRevision: main
-    helm:
-      valueFiles:
-        - values-dev.yaml 
+    repoURL: git@github.com:uche-madu/deb-infrastructure.git
+    targetRevision: HEAD
+    chart: argocd-app/my-airflow
   destination:
     server: https://kubernetes.default.svc
     namespace: airflow
