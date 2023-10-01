@@ -1,8 +1,8 @@
 server:
   service:
     type: LoadBalancer
-  extraArgs:
-    - --insecure=true   
+  # extraArgs:
+  #   - --insecure=true   
 
 
 # configs:
