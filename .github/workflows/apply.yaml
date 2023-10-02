@@ -162,7 +162,7 @@ jobs:
         
         - name: Install Required Plugin for kubectl
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-          run: gcloud components install gke-gcloud-auth-plugin
+          run: gcloud components install gke-gcloud-auth-plugin 
         
         - name: Set GKE credentials as env variables
           id: set_gke_creds
