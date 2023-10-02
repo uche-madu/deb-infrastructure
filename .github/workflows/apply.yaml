@@ -163,9 +163,9 @@ jobs:
         - name: Get GKE credentials
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
           run: |
-            gcloud container clusters get-credentials \
-              $(terraform output -raw gke_cluster_name) \
-              --location=$(terraform output -raw gke_cluster_location)
+            GKE_CLUSTER_NAME=$(terraform output -raw gke_cluster_name)
+            GKE_CLUSTER_LOCATION=$(terraform output -raw gke_cluster_location)
+            gcloud container clusters get-credentials $GKE_CLUSTER_NAME --location=$GKE_CLUSTER_LOCATION
   
         - name: Apply ArgoCD ApplicationSet
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
