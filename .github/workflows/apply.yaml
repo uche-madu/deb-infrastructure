@@ -60,7 +60,7 @@ jobs:
           uses: hashicorp/setup-terraform@v2
           with: 
             terraform_version: '1.5.7'
-            terraform_wrapper: true
+            terraform_wrapper: false
     
         - name: Terraform Init
           id: init
@@ -164,8 +164,8 @@ jobs:
           id: set_gke_creds
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
           run: |
-            echo "GKE_CLUSTER_NAME=$(terraform output -raw gke_cluster_name | grep -v '::debug::')" >> $GITHUB_OUTPUT
-            echo "GKE_CLUSTER_LOCATION=$(terraform output -raw gke_cluster_location | grep -v '::debug::')" >> $GITHUB_OUTPUT
+            echo "GKE_CLUSTER_NAME=$(terraform output -raw gke_cluster_name)" >> $GITHUB_OUTPUT
+            echo "GKE_CLUSTER_LOCATION=$(terraform output -raw gke_cluster_location)" >> $GITHUB_OUTPUT
 
         - name: Get GKE credentials
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
