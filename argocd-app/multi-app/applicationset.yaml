@@ -10,7 +10,7 @@ metadata:
 spec:
   generators:
   - list:
-      items:
+      elements:
       - name: app-of-apps
   template:
     metadata:
