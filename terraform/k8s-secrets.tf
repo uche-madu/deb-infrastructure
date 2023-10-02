@@ -11,6 +11,18 @@ resource "kubernetes_secret" "airflow_webserver_secret" {
   }
 }
 
+# Airflow fernet key
+resource "kubernetes_secret" "fernet_key_secret" {
+  metadata {
+    name      = "fernet-key-secret"
+    namespace = kubernetes_namespace.airflow.metadata[0].name
+  }
+
+  data = {
+    fernet_key = data.google_secret_manager_secret_version.fernet_key_version.secret_data
+  }
+}
+
 # GitSync Ssh Key
 resource "kubernetes_secret" "airflow_ssh_secret" {
   metadata {

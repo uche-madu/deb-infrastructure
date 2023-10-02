@@ -55,6 +55,40 @@ data "google_secret_manager_secret_version" "airflow_webserver_secret" {
   depends_on = [google_secret_manager_secret_version.airflow_webserver_secret_v1]
 }
 
+# Airflow Fernet Key
+resource "null_resource" "generate_fernet_key" {
+  provisioner "local-exec" {
+    command = "python ../generate-fernet-key.py > ../fernet-key.txt"
+  }
+}
+
+data "external" "fernet_key" {
+  program    = ["python", "${path.module}/../generate-fernet-key.py"]
+  depends_on = [null_resource.generate_fernet_key]
+}
+
+resource "google_secret_manager_secret" "fernet_key" {
+  secret_id = "fernet-key"
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "fernet_key_version" {
+  secret      = google_secret_manager_secret.fernet_key.name
+  secret_data = data.external.fernet_key.result["fernet_key"]
+
+  lifecycle {
+    ignore_changes = [secret_data]
+  }
+}
+
+# Retrieve the fernet key
+data "google_secret_manager_secret_version" "fernet_key_version" {
+  secret  = google_secret_manager_secret.fernet_key.name
+  version = "latest"
+}
+
 # GitSync Ssh key
 # Fetch the latest version of the secret. The secret was created in setup.sh
 data "google_secret_manager_secret_version" "airflow_ssh_key_private" {
@@ -63,6 +97,7 @@ data "google_secret_manager_secret_version" "airflow_ssh_key_private" {
 }
 
 # ArgoCD Ssh key
+# Fetch the latest version of the secret. The secret was created in setup.sh
 data "google_secret_manager_secret_version" "argocd_ssh_key_private" {
   secret  = "argocd_ssh_key_private"
   version = "latest"

@@ -155,6 +155,21 @@ jobs:
             terraform apply \
             -input=false \
             -auto-approve 
+        
+        - name: Set up Cloud SDK
+          if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+          uses: 'google-github-actions/setup-gcloud@v1'
+        
+        - name: Get GKE credentials
+          if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+          run: |
+            gcloud container clusters get-credentials \
+              $(terraform output -raw gke_cluster_name) \
+              --location=$(terraform output -raw gke_cluster_location)
+  
+        - name: Apply ArgoCD ApplicationSet
+          if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+          run: kubectl apply -f ../argocd-app/multi-app/applicationset.yaml -n argocd 
     
         - name: Terraform Destroy (Manual Trigger)
           if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.destroy == 'true'
