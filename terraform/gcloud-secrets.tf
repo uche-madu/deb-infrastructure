@@ -87,6 +87,8 @@ resource "google_secret_manager_secret_version" "fernet_key_version" {
 data "google_secret_manager_secret_version" "fernet_key_version" {
   secret  = google_secret_manager_secret.fernet_key.name
   version = "latest"
+
+  depends_on = [google_secret_manager_secret_version.fernet_key_version]
 }
 
 # GitSync Ssh key

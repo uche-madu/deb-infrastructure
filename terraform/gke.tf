@@ -68,18 +68,6 @@ resource "helm_release" "argocd" {
   ]
 }
 
-# Apply 
-resource "null_resource" "applicationset" {
-  depends_on = [helm_release.argocd]
-
-  provisioner "local-exec" {
-    command = "kubectl apply -f applicationset.yaml"
-  }
-
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-}
 
 # Helm Airflow
 # resource "helm_release" "airflow" {
