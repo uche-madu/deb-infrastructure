@@ -160,6 +160,10 @@ jobs:
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
           uses: 'google-github-actions/setup-gcloud@v1'
         
+        - name: Install Required Plugin for kubectl
+          if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+          run: gcloud components install gke-gcloud-auth-plugin
+        
         - name: Set GKE credentials as env variables
           id: set_gke_creds
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
