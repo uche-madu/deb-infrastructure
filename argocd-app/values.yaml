@@ -1,18 +1,5 @@
 server:
   service:
-    type: LoadBalancer
+    type: NodePort
   # extraArgs:
-  #   - --insecure=true   
-
-
-# configs:
-#   credentialTemplates:
-#     ssh-creds:
-#       url: git@github.com:uche-madu
-#       sshPrivateKeySecret:
-#         name: ssh-key-secret
-#         key: sshPrivateKey
-
-#   repositories:
-#     deb-infra-repo:
-#       url: git@github.com/uche-madu/deb-infrastructure.git
+  #   - --insecure=false   

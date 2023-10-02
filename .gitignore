@@ -2,3 +2,4 @@
 terraform/.terraform.lock.hcl
 credentials.json
 .git
+fernet_key.txt

@@ -53,6 +53,7 @@ module "gke" {
   }
 }
 
+# Install ArgoCD on GKE
 resource "helm_release" "argocd" {
   name       = "argocd"
   namespace  = var.argocd_namespace
@@ -65,6 +66,19 @@ resource "helm_release" "argocd" {
   values = [
     file("${path.module}/../argocd-app/values.yaml")
   ]
+}
+
+# Apply 
+resource "null_resource" "applicationset" {
+  depends_on = [helm_release.argocd]
+
+  provisioner "local-exec" {
+    command = "kubectl apply -f applicationset.yaml"
+  }
+
+  triggers = {
+    always_run = "${timestamp()}"
+  }
 }
 
 # Helm Airflow
