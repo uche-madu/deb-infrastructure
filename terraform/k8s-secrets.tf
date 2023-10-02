@@ -19,7 +19,7 @@ resource "kubernetes_secret" "fernet_key_secret" {
   }
 
   data = {
-    fernet_key = data.google_secret_manager_secret_version.fernet_key_version.secret_data
+    fernet-key = data.google_secret_manager_secret_version.fernet_key_version.secret_data
   }
 }
 
