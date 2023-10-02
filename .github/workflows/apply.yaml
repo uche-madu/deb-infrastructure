@@ -160,11 +160,15 @@ jobs:
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
           uses: 'google-github-actions/setup-gcloud@v1'
         
+        - name: Set GKE credentials as env variables
+          if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+          run: |
+            echo "GKE_CLUSTER_NAME=$(terraform output -raw gke_cluster_name)" >> $GITHUB_ENV
+            echo "GKE_CLUSTER_LOCATION=$(terraform output -raw gke_cluster_location)" >> $GITHUB_ENV
+        
         - name: Get GKE credentials
           if: github.ref == 'refs/heads/main' && github.event_name == 'push'
           run: |
-            GKE_CLUSTER_NAME=$(terraform output -raw gke_cluster_name)
-            GKE_CLUSTER_LOCATION=$(terraform output -raw gke_cluster_location)
             gcloud container clusters get-credentials $GKE_CLUSTER_NAME --location=$GKE_CLUSTER_LOCATION
   
         - name: Apply ArgoCD ApplicationSet
