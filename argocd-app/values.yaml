@@ -1,5 +1,5 @@
 server:
   service:
-    type: NodePort
+    type: LoadBalancer
   # extraArgs:
   #   - --insecure=false   
