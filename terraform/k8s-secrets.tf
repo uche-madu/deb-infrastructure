@@ -64,7 +64,6 @@ resource "kubernetes_secret" "airflow_db_connection_secret" {
   }
 }
 
-
 # ArgoCD Ssh Key
 resource "kubernetes_secret" "argocd_ssh_secret" {
   metadata {

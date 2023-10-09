@@ -14,7 +14,7 @@ resource "google_secret_manager_secret" "db_user_pass" {
   secret_id = "db-user-pass-${random_id.suffix.hex}"
 
   replication {
-    auto {}
+    automatic = true
   }
 
   depends_on = [module.services.enabled_api_identities]
@@ -38,7 +38,7 @@ data "google_secret_manager_secret_version" "db_user_pass" {
 resource "google_secret_manager_secret" "airflow_webserver_secret" {
   secret_id = "airflow-webserver-secret"
   replication {
-    auto {}
+    automatic = true
   }
 }
 
@@ -70,7 +70,7 @@ data "external" "fernet_key" {
 resource "google_secret_manager_secret" "fernet_key" {
   secret_id = "fernet-key"
   replication {
-    auto {}
+    automatic = true
   }
 }
 
