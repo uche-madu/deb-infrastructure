@@ -89,7 +89,7 @@ airflow:
 
   workers:
     persistence:
-      size: 10Gi
+      size: 5Gi
       
   # Airflow Triggerer Config
   triggerer:
