@@ -59,7 +59,8 @@ resource "kubernetes_secret" "airflow_db_connection_secret" {
   }
 
   data = {
-    connection = local.connection_url
+    connection            = local.connection_url,
+    AIRFLOW_CONN_POSTGRES = local.connection_url
   }
 }
 
