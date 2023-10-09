@@ -17,8 +17,8 @@ airflow:
     airflow:
       # To be replaced automatically by the Github Actions CICD workflow
       # in the DEB Application repository
-      repository: us-central1-docker.pkg.dev/wizeline-deb/deb-capstone-airflow-gke/airflow2.7.1-custom
-      tag: b44f5c6c
+      repository: ~
+      tag: ~
       # Specifying digest takes precedence over tag.
       digest: ~
       pullPolicy: Always
@@ -35,9 +35,9 @@ airflow:
     - envName: "AIRFLOW_CONN_GCP"
       secretName: "airflow-gcp-connection"
       secretKey: "AIRFLOW_CONN_GCP"
-    - envName: "AIRFLOW_CONN_POSTGRES"
-      secretName: "airflow-db-connection-secret"
-      secretKey: "AIRFLOW_CONN_POSTGRES"
+    # - envName: "AIRFLOW_CONN_POSTGRES"
+    #   secretName: "airflow-db-connection-secret"
+    #   secretKey: "AIRFLOW_CONN_POSTGRES"
 
   # Postgresql DB Connection  
   data:
