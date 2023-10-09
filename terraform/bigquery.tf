@@ -5,16 +5,19 @@ resource "google_bigquery_dataset" "default" {
 }
 
 resource "google_bigquery_table" "log_stg" {
-  dataset_id = google_bigquery_dataset.default.dataset_id
-  table_id   = "log_stg"
+  dataset_id          = google_bigquery_dataset.default.dataset_id
+  table_id            = "log_stg"
+  deletion_protection = false
 }
 
 resource "google_bigquery_table" "user_purchase_stg" {
-  dataset_id = google_bigquery_dataset.default.dataset_id
-  table_id   = "user_purchase_stg"
+  dataset_id          = google_bigquery_dataset.default.dataset_id
+  table_id            = "user_purchase_stg"
+  deletion_protection = false
 }
 
 resource "google_bigquery_table" "movie_review_stg" {
-  dataset_id = google_bigquery_dataset.default.dataset_id
-  table_id   = "movie_review_stg"
+  dataset_id          = google_bigquery_dataset.default.dataset_id
+  table_id            = "movie_review_stg"
+  deletion_protection = false
 }
