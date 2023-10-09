@@ -35,6 +35,9 @@ airflow:
     - envName: "AIRFLOW_CONN_GCP"
       secretName: "airflow-gcp-connection"
       secretKey: "AIRFLOW_CONN_GCP"
+    - envName: "AIRFLOW_CONN_POSTGRES"
+      secretName: "airflow-db-connection-secret"
+      secretKey: "AIRFLOW_CONN_POSTGRES"
 
   # Postgresql DB Connection  
   data:
