@@ -77,6 +77,7 @@ PROJECT_ROLES=(
   "roles/secretmanager.admin"
   "roles/cloudsql.admin"
   "roles/artifactregistry.admin"
+  "roles/bigquery.dataEditor"
 )
 
 # Service account-level roles
