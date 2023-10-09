@@ -17,8 +17,8 @@ airflow:
     airflow:
       # To be replaced automatically by the Github Actions CICD workflow
       # in the DEB Application repository
-      repository: ~
-      tag: ~
+      repository: us-central1-docker.pkg.dev/wizeline-deb/deb-capstone-airflow-gke/airflow2.7.1-custom
+      tag: 84bac9e5
       # Specifying digest takes precedence over tag.
       digest: ~
       pullPolicy: Always
