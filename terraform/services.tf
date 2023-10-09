@@ -37,5 +37,6 @@ module "services" {
     "dataproc.googleapis.com",
     "iamcredentials.googleapis.com",
     "bigquery.googleapis.com",
+    "bigquerystorage.googleapis.com",
   ]
 }

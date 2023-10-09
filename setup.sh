@@ -14,6 +14,34 @@ export BUCKET_NAME="gs://deb-capstone"
 # Check and create the GCS bucket with uniform access control if it doesn't exist
 gsutil ls $BUCKET_NAME &> /dev/null || gsutil mb -l us -b on $BUCKET_NAME
 
+# Copy project csv files into separate cloud storage folders idempotently
+gsutil rsync -r data/log_reviews $BUCKET_NAME/project-data/log_reviews
+gsutil rsync -r data/movie_reviews $BUCKET_NAME/project-data/movie_reviews
+gsutil rsync -r data/user_purchases $BUCKET_NAME/project-data/user_purchases
+
+
+# Copy dataproc initialization actions to our bucket if they are not there already
+REGION="us-central1"
+
+# Define the initialization actions and their destination paths
+declare -A INIT_ACTIONS=(
+    ["python/pip-install.sh"]="${BUCKET_NAME}/dataproc-initialization-actions/python/v1.0/pip-install.sh"
+    ["connectors/connectors.sh"]="${BUCKET_NAME}/dataproc-initialization-actions/connectors/v1.0/connectors.sh"
+)
+
+# Iterate over the initialization actions and copy them if they don't exist in the bucket
+for INIT_ACTION in "${!INIT_ACTIONS[@]}"; do
+    DEST_PATH="${INIT_ACTIONS[$INIT_ACTION]}"
+    # Check if the file already exists in the bucket
+    if ! gsutil -q stat ${DEST_PATH}; then
+        # If not, copy the initialization action to the bucket
+        gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/${INIT_ACTION} ${DEST_PATH}
+        echo "Initialization action ${INIT_ACTION} copied to ${DEST_PATH}"
+    else
+        echo "Initialization action ${INIT_ACTION} already exists in ${DEST_PATH}"
+    fi
+done
+
 # Create a Service Account
 SERVICE_ACCOUNT_NAME="deb-sa"
 SERVICE_ACCOUNT_EMAIL="${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
