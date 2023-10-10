@@ -35,9 +35,9 @@ airflow:
     - envName: "AIRFLOW_CONN_GCP"
       secretName: "airflow-gcp-connection"
       secretKey: "AIRFLOW_CONN_GCP"
-    # - envName: "AIRFLOW_CONN_POSTGRES"
-    #   secretName: "airflow-db-connection-secret"
-    #   secretKey: "AIRFLOW_CONN_POSTGRES"
+    - envName: "AIRFLOW_CONN_POSTGRES"
+      secretName: "airflow-db-connection-secret"
+      secretKey: "AIRFLOW_CONN_POSTGRES"
 
   # Postgresql DB Connection  
   data:
@@ -60,6 +60,9 @@ airflow:
   enableBuiltInSecretEnvVars:
     AIRFLOW__CORE__FERNET_KEY: false
     AIRFLOW__WEBSERVER__SECRET_KEY: false
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: false
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: false
+    AIRFLOW_CONN_AIRFLOW_DB: false
   
   fernetKeySecretName: "fernet-key-secret"
   
@@ -83,6 +86,9 @@ airflow:
 
   postgresql:
     enabled: false
+  
+  pgbouncer:
+    enabled: true
 
   redis:
     enabled: false
