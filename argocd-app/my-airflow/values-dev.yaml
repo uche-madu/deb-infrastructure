@@ -17,8 +17,8 @@ airflow:
     airflow:
       # To be replaced automatically by the Github Actions CICD workflow
       # in the DEB Application repository
-      repository: ~
-      tag: ~
+      repository: us-central1-docker.pkg.dev/wizeline-deb/deb-capstone-airflow-gke/airflow2.7.1-custom
+      tag: 895830da
       # Specifying digest takes precedence over tag.
       digest: ~
       pullPolicy: Always
@@ -60,9 +60,9 @@ airflow:
   enableBuiltInSecretEnvVars:
     AIRFLOW__CORE__FERNET_KEY: false
     AIRFLOW__WEBSERVER__SECRET_KEY: false
-    AIRFLOW__CORE__SQL_ALCHEMY_CONN: false
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: false
-    AIRFLOW_CONN_AIRFLOW_DB: false
+    #AIRFLOW__CORE__SQL_ALCHEMY_CONN: false
+    #AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: false
+    #AIRFLOW_CONN_AIRFLOW_DB: false
   
   fernetKeySecretName: "fernet-key-secret"
   
