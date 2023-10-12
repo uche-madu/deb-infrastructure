@@ -180,7 +180,13 @@ For example:
 terraform force-unlock -force 1695529512488132
 ```
 
-2. Terraform destroy might fail due to the kubernetes_namespace.argocd resource being stuck in a terminating stage. Here's how to get it unstuck from your terminal and complete terraform destroy.
+2. Terraform destroy might fail due to the kubernetes_namespace.argocd resource being stuck in a terminating stage. Here's how to get it unstuck from your terminal and complete terraform destroy. I have provided a script to run force-delete a namespace. Note that the script runs `kubectl` commands in the background so it requires that cluster credentials are set in the terminal as usual. To force-delete argocd namespace run:
+    ```
+    ./del_ns.sh argocd
+    ``` 
+Then trigger terraform destroy again to complete the destruction of all resources.
+
+- To investigate the problem manually, you follow these steps: 
   - Find out details about the stuck argocd namespace:
     ```
     kubectl describe ns argocd
@@ -206,7 +212,7 @@ terraform force-unlock -force 1695529512488132
     ```
   - Notice the message: `applications.argoproj.io has 1 resource instances
       NamespaceFinalizersRemaining`
-  - Edit the resource to remove the finalizers, in this case, the line with `resources-finalizer.argocd.argoproj.io/foreground`:
+  - Edit the resource to remove all finalizers, in the above case, the line with `resources-finalizer.argocd.argoproj.io/foreground`:
     ```
     kubectl edit applications.argoproj.io -n argocd
     ```
