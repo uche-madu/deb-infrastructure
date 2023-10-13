@@ -43,15 +43,16 @@ resource "kubernetes_secret" "airflow_gcp_connection" {
   }
 
   data = {
-    AIRFLOW_CONN_GCP = "google-cloud-platform://?extra__google_cloud_platform__impersonation_chain=${urlencode(data.google_service_account.deb-sa.email)}&extra__google_cloud_platform__project=${urlencode(var.project_id)}"
+    AIRFLOW_CONN_GCP = jsonencode({
+      conn_type = "google_cloud_platform",
+      extra = {
+        key_secret_name = google_secret_manager_secret.deb_sa_key_secret.secret_id
+      }
+    })
   }
 }
 
 # Airflow metadataConnection
-locals {
-  connection_url = "postgresql://${var.db_user}:${data.google_secret_manager_secret_version.db_user_pass.secret_data}@${module.sql-db.private_ip_address}:${var.db_port}/${var.airflow_database}"
-}
-
 resource "kubernetes_secret" "airflow_db_connection_secret" {
   metadata {
     name      = "airflow-db-connection-secret"

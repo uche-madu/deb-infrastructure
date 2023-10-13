@@ -21,7 +21,8 @@ airflow:
       tag: ~
       # Specifying digest takes precedence over tag.
       digest: ~
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
+      useDefaultImageForMigration: true
 
   # Add common labels to all objects and pods defined in this chart.
   labels:
@@ -44,7 +45,7 @@ airflow:
     metadataSecretName: airflow-db-connection-secret
 
   # Enable testing connections
-  env:
+  extraEnv:
     - name: AIRFLOW__CORE__TEST_CONNECTION
       value: enabled
 
@@ -108,12 +109,12 @@ airflow:
       # Volume size for triggerer StatefulSet
       size: 5Gi
 
-  # logs:
-  #   persistence:
-  #     # Enable persistent volume for storing logs
-  #     enabled: true
-  #     # Volume size for logs
-  #     size: 1Gi
+  logs:
+    persistence:
+      # Enable persistent volume for storing logs
+      enabled: true
+      # Volume size for logs
+      size: 1Gi
 
   # To avoid issues with database migrations when deploying with ArgoCD
   # https://airflow.apache.org/docs/helm-chart/stable/index.html#installing-the-chart-with-argo-cd-flux-rancher-or-terraform

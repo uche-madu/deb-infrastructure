@@ -59,7 +59,7 @@ resource "helm_release" "argocd" {
   namespace  = var.argocd_namespace
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
-  version    = "5.46.7"
+  version    = "5.46.8"
 
   depends_on = [module.gke.endpoint]
 

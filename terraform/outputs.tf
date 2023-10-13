@@ -66,3 +66,9 @@ output "enabled_apis" {
   description = "List of enabled APIs in the project."
   value       = module.services.enabled_apis
 }
+
+output "deb_sa_key" {
+  description = "Service account key of the deb service account"
+  value       = google_service_account_key.deb_sa_key.private_key
+  sensitive   = true
+}
