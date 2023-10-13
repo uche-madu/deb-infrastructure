@@ -79,6 +79,7 @@ PROJECT_ROLES=(
   "roles/artifactregistry.admin"
   "roles/bigquery.dataEditor"
   "roles/bigquery.jobUser"
+  "roles/iam.serviceAccountKeyAdmin"
 )
 
 # Service account-level roles
