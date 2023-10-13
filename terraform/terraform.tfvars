@@ -11,7 +11,7 @@ subnet-02    = "deb-sub2"
 # GKE
 gke_cluster    = "deb-airflow-cluster"
 node_pool_name = "deb-node-pool"
-machine_type   = "n1-standard-2"
+machine_type   = "n1-standard-1"
 node_count     = 1
 
 # Services
