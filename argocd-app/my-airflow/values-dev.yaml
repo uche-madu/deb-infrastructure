@@ -22,7 +22,7 @@ airflow:
       # Specifying digest takes precedence over tag.
       digest: ~
       pullPolicy: IfNotPresent
-      useDefaultImageForMigration: true
+      #useDefaultImageForMigration: true
 
   # Add common labels to all objects and pods defined in this chart.
   labels:
