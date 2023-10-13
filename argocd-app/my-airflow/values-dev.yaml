@@ -45,9 +45,9 @@ airflow:
     metadataSecretName: airflow-db-connection-secret
 
   # Enable testing connections
-  extraEnv:
-    - name: AIRFLOW__CORE__TEST_CONNECTION
-      value: enabled
+  env:
+    - name: "AIRFLOW__CORE__TEST_CONNECTION"
+      value: "Enabled"
 
   # Git sync
   dags:
