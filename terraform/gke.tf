@@ -9,7 +9,7 @@ resource "random_id" "suffix" {
 # GKE Settings
 module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "~> 27.0.0"
+  version = "~> 28.0.0"
 
   project_id            = module.vpc.project_id
   name                  = "${var.gke_cluster}-${random_id.suffix.hex}"
@@ -71,7 +71,6 @@ module "airflow_workload_identity" {
   project_id                  = var.project_id
   impersonate_service_account = data.google_service_account.deb-sa.email
   depends_on                  = [helm_release.argocd]
-
 }
 
 # Create NFS Storage
