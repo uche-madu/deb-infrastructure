@@ -106,22 +106,22 @@ data "google_secret_manager_secret_version" "argocd_ssh_key_private" {
 }
 
 # DEB service account key
-resource "google_secret_manager_secret" "deb_sa_key_secret" {
-  secret_id = "deb_sa_key_secret"
-  replication {
-    automatic = true
-  }
-}
+# resource "google_secret_manager_secret" "deb_sa_key_secret" {
+#   secret_id = "deb_sa_key_secret"
+#   replication {
+#     automatic = true
+#   }
+# }
 
-resource "google_secret_manager_secret_version" "deb_sa_key_secret_version" {
-  secret      = google_secret_manager_secret.deb_sa_key_secret.id
-  secret_data = google_service_account_key.deb_sa_key.private_key
-}
+# resource "google_secret_manager_secret_version" "deb_sa_key_secret_version" {
+#   secret      = google_secret_manager_secret.deb_sa_key_secret.id
+#   secret_data = google_service_account_key.deb_sa_key.private_key
+# }
 
-# Fetch the latest version of the secret.
-data "google_secret_manager_secret_version" "deb_sa_key_secret_version" {
-  secret  = "deb_sa_key_secret"
-  version = "latest"
+# # Fetch the latest version of the secret.
+# data "google_secret_manager_secret_version" "deb_sa_key_secret_version" {
+#   secret  = "deb_sa_key_secret"
+#   version = "latest"
 
-  depends_on = [google_secret_manager_secret_version.deb_sa_key_secret_version]
-}
+#   depends_on = [google_secret_manager_secret_version.deb_sa_key_secret_version]
+# }
