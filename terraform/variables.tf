@@ -63,6 +63,10 @@ variable "argocd_namespace" {
   type = string
 }
 
+# variable "nfs_namespace" {
+#   type = string
+# }
+
 # Cloud SQL
 variable "instance_name" {
   description = "Name for the sql instance database"

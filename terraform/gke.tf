@@ -29,7 +29,7 @@ module "gke" {
       node_locations     = var.zone
       min_count          = 1
       max_count          = 2
-      disk_size_gb       = 30
+      disk_size_gb       = 10
       disk_type          = "pd-standard"
       image_type         = "COS_CONTAINERD"
       service_account    = data.google_service_account.deb-sa.email
@@ -63,6 +63,7 @@ resource "helm_release" "argocd" {
   ]
 }
 
+# GKE Workload identity
 module "airflow_workload_identity" {
   source                      = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   name                        = "airflow"
@@ -72,3 +73,26 @@ module "airflow_workload_identity" {
   depends_on                  = [helm_release.argocd]
 
 }
+
+# Create NFS Storage
+# resource "helm_release" "nfs" {
+#   name = "nfs-client"
+#   namespace = var.nfs_namespace
+#   repository = "https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/"
+#   chart      = "nfs-subdir-external-provisioner"
+
+#   set {
+#     name  = "nfs.server"
+#     value = ""
+#   }
+
+#   set {
+#     name  = "nfs.path"
+#     value = ""
+#   }
+
+#   set {
+#     name  = "storageClass.archiveOnDelete"
+#     value = "false"
+#   }
+# }

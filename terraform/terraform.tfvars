@@ -6,7 +6,7 @@ zone       = "us-central1-c"
 # VPC
 network_name = "deb-capstone-net"
 subnet-01    = "deb-sub1"
-subnet-02    = "deb-sub2"
+# subnet-02    = "deb-sub2"
 
 # GKE
 gke_cluster    = "deb-airflow-cluster"
@@ -23,6 +23,7 @@ disable_dependent_services  = false
 airflow_helm_version = "1.10.0"
 airflow_namespace    = "airflow"
 argocd_namespace     = "argocd"
+# nfs_namespace = "storage"
 
 # Cloud SQL
 db_tier          = "db-f1-micro"

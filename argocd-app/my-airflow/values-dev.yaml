@@ -101,20 +101,22 @@ airflow:
 
   workers:
     persistence:
-      size: 5Gi
+      size: 1Gi
       
   # Airflow Triggerer Config
   triggerer:
     persistence:
       # Volume size for triggerer StatefulSet
-      size: 5Gi
-
-  logs:
-    persistence:
-      # Enable persistent volume for storing logs
-      enabled: true
-      # Volume size for logs
       size: 1Gi
+
+  # logs:
+  #   persistence:
+  #     # Enable persistent volume for storing logs
+  #     enabled: true
+  #     # Volume size for logs
+  #     size: 1Gi
+  #     # If using a custom storageClass, pass name here
+  #     storageClassName: nfs-client
 
   # To avoid issues with database migrations when deploying with ArgoCD
   # https://airflow.apache.org/docs/helm-chart/stable/index.html#installing-the-chart-with-argo-cd-flux-rancher-or-terraform
