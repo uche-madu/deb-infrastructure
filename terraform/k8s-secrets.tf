@@ -1,4 +1,3 @@
-
 # Airflow webserver
 resource "kubernetes_secret" "airflow_webserver_secret" {
   metadata {
@@ -42,13 +41,11 @@ resource "kubernetes_secret" "airflow_gcp_connection" {
     namespace = kubernetes_namespace.airflow.metadata[0].name
   }
 
+  # Leaving the connection URI string because we're using Application Default Credentials
+  # as were leveraging GKE workload identity 
+  # https://airflow.apache.org/docs/apache-airflow-providers-google/stable/connections/gcp.html#note-on-application-default-credentials
   data = {
-    AIRFLOW_CONN_GCP = jsonencode({
-      conn_type = "google_cloud_platform",
-      extra = {
-        key_secret_name = google_secret_manager_secret.deb_sa_key_secret.secret_id
-      }
-    })
+    AIRFLOW_CONN_GCP = "google-cloud-platform://"
   }
 }
 
@@ -112,9 +109,3 @@ resource "kubernetes_secret" "infra_ssh_repo" {
 
   type = "Opaque"
 }
-
-
-
-
-
-

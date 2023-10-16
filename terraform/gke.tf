@@ -1,11 +1,6 @@
 # google_client_config must be explicitly specified like the following.
 data "google_client_config" "default" {}
 
-# Retrieve the service account established in setup.sh
-data "google_service_account" "deb-sa" {
-  account_id = "deb-sa"
-}
-
 # Random input generator
 resource "random_id" "suffix" {
   byte_length = 8
@@ -68,26 +63,12 @@ resource "helm_release" "argocd" {
   ]
 }
 
+module "airflow_workload_identity" {
+  source                      = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name                        = "airflow"
+  namespace                   = var.airflow_namespace
+  project_id                  = var.project_id
+  impersonate_service_account = data.google_service_account.deb-sa.email
+  depends_on                  = [helm_release.argocd]
 
-# Helm Airflow
-# resource "helm_release" "airflow" {
-#   name       = "airflow"
-#   repository = "https://airflow.apache.org"
-
-#   # Previously had to pull the helm chart via the CLI locally and reference 
-#   # the local directory ("./airflow") here because the Chart.yaml file in the 
-#   # remote repo was missing (probably a provider issue).
-#   # The fix was to ensure there was no directory with the same name as the chart.
-#   # I had an "airflow" directory while the chart name is also "airflow". 
-#   # This is a general issue with the helm_release resource. 
-#   chart            = "airflow"
-#   namespace        = kubernetes_namespace.airflow.metadata[0].name
-#   version          = var.airflow_helm_version
-#   create_namespace = false
-#   wait             = false # Setting to true would impair the wait-for-airflow-migrations container
-
-#   values = [file("${path.cwd}/airflow-helm-values/values-dev.yaml"), local.rendered_values]
-
-#   depends_on = [module.gke.endpoint]
-
-# }
+}
