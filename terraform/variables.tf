@@ -19,9 +19,9 @@ variable "subnet-01" {
   type = string
 }
 
-variable "subnet-02" {
-  type = string
-}
+# variable "subnet-02" {
+#   type = string
+# }
 
 
 
