@@ -48,30 +48,30 @@ module "gke" {
   }
 }
 
-# Install ArgoCD on GKE
-resource "helm_release" "argocd" {
-  name       = "argocd"
-  namespace  = var.argocd_namespace
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo-cd"
-  version    = "5.46.8"
+# # Install ArgoCD on GKE
+# resource "helm_release" "argocd" {
+#   name       = "argocd"
+#   namespace  = var.argocd_namespace
+#   repository = "https://argoproj.github.io/argo-helm"
+#   chart      = "argo-cd"
+#   version    = "5.46.8"
 
-  depends_on = [module.gke.endpoint]
+#   depends_on = [module.gke.endpoint]
 
-  values = [
-    file("${path.module}/../argocd-app/values.yaml")
-  ]
-}
+#   values = [
+#     file("${path.module}/../argocd-app/values.yaml")
+#   ]
+# }
 
-# GKE Workload identity
-module "airflow_workload_identity" {
-  source                      = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name                        = "airflow"
-  namespace                   = var.airflow_namespace
-  project_id                  = var.project_id
-  impersonate_service_account = data.google_service_account.deb-sa.email
-  depends_on                  = [helm_release.argocd]
-}
+# # GKE Workload identity
+# module "airflow_workload_identity" {
+#   source                      = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+#   name                        = "airflow"
+#   namespace                   = var.airflow_namespace
+#   project_id                  = var.project_id
+#   impersonate_service_account = data.google_service_account.deb-sa.email
+#   depends_on                  = [helm_release.argocd]
+# }
 
 # Create NFS Storage
 # resource "helm_release" "nfs" {
