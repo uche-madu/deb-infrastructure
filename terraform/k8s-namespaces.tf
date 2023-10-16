@@ -11,3 +11,10 @@ resource "kubernetes_namespace" "argocd" {
     name = var.argocd_namespace
   }
 }
+
+# NFS namespace
+# resource "kubernetes_namespace" "nfs" {
+#   metadata {
+#     name = var.nfs_namespace
+#   }
+# }

@@ -19,9 +19,9 @@ variable "subnet-01" {
   type = string
 }
 
-variable "subnet-02" {
-  type = string
-}
+# variable "subnet-02" {
+#   type = string
+# }
 
 
 
@@ -62,6 +62,10 @@ variable "airflow_namespace" {
 variable "argocd_namespace" {
   type = string
 }
+
+# variable "nfs_namespace" {
+#   type = string
+# }
 
 # Cloud SQL
 variable "instance_name" {

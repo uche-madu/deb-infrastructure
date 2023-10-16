@@ -38,5 +38,6 @@ module "services" {
     "iamcredentials.googleapis.com",
     "bigquery.googleapis.com",
     "bigquerystorage.googleapis.com",
+    # "file.googleapis.com",
   ]
 }
