@@ -79,6 +79,8 @@ airflow:
   webserver:
     service:
       type: LoadBalancer
+    seviceAccount:
+      name: airflow
     
     # Create initial user.
     defaultUser:
@@ -102,6 +104,12 @@ airflow:
   workers:
     persistence:
       size: 1Gi
+    seviceAccount:
+      name: airflow
+  
+  scheduler:
+    seviceAccount:
+      name: airflow
       
   # Airflow Triggerer Config
   triggerer:
