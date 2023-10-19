@@ -11,6 +11,11 @@ variable "zone" {
   type = string
 }
 
+variable "zones" {
+  description = "The list of zones where the cluster nodes will be created"
+  type        = list(string)
+}
+
 variable "network_name" {
   type = string
 }

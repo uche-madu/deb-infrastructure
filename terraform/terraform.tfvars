@@ -1,7 +1,7 @@
 project_id = "wizeline-deb"
 region     = "us-central1"
 zone       = "us-central1-c"
-# zones      = ["us-central1-a", "us-central1-b", "us-central1-c"]
+zones      = ["us-central1-a", "us-central1-b", "us-central1-c"]
 
 # VPC
 network_name = "deb-capstone-net"
@@ -11,7 +11,7 @@ subnet-01    = "deb-sub1"
 # GKE
 gke_cluster    = "deb-airflow-cluster"
 node_pool_name = "deb-node-pool"
-machine_type   = "n1-standard-1"
+machine_type   = "n2-standard-4"
 node_count     = 1
 
 # Services
