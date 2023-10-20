@@ -36,7 +36,7 @@ module "gke" {
     "max_cpu_cores" : 12,
     "min_cpu_cores" : 1,
     "gpu_resources" : [],
-    "max_memory_gb" : 15,
+    "max_memory_gb" : 30,
     "min_memory_gb" : 1
   }
 
@@ -47,7 +47,7 @@ module "gke" {
       node_locations     = var.zone #join(",", random_shuffle.zones.result)
       min_count          = 1
       max_count          = 3
-      disk_size_gb       = 20
+      disk_size_gb       = 32
       disk_type          = "pd-standard"
       image_type         = "COS_CONTAINERD"
       service_account    = data.google_service_account.deb-sa.email
