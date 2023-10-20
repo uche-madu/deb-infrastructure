@@ -20,7 +20,7 @@ module "gke" {
   project_id            = module.vpc.project_id
   name                  = "${var.gke_cluster}-${random_id.suffix.hex}"
   region                = var.region
-  zones                 = var.zones
+  zones                 = [var.zone]
   network               = module.vpc.network_name
   subnetwork            = module.vpc.subnets_names[0]
   ip_range_pods         = "deb-sub1-secondary-gke-pods"
@@ -44,7 +44,7 @@ module "gke" {
     {
       name               = var.node_pool_name
       machine_type       = var.machine_type
-      node_locations     = join(",", random_shuffle.zones.result)
+      node_locations     = var.zone #join(",", random_shuffle.zones.result)
       min_count          = 1
       max_count          = 3
       disk_size_gb       = 20
@@ -52,7 +52,7 @@ module "gke" {
       image_type         = "COS_CONTAINERD"
       service_account    = data.google_service_account.deb-sa.email
       preemptible        = false
-      initial_node_count = 1
+      initial_node_count = var.node_count
     },
   ]
 
