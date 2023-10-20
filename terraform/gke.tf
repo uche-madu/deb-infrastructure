@@ -26,13 +26,14 @@ module "gke" {
   ip_range_pods         = "deb-sub1-secondary-gke-pods"
   ip_range_services     = "deb-sub1-secondary-gke-services"
   grant_registry_access = true
+  
   cluster_autoscaling = {
     "auto_repair" : true,
     "auto_upgrade" : true,
     "disk_size" : 32,
     "disk_type" : "pd-standard",
     "enabled" : true,
-    "max_cpu_cores" : 4,
+    "max_cpu_cores" : 12,
     "min_cpu_cores" : 1,
     "gpu_resources" : [],
     "max_memory_gb" : 15,
