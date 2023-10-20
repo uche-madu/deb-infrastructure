@@ -26,7 +26,7 @@ module "gke" {
   ip_range_pods         = "deb-sub1-secondary-gke-pods"
   ip_range_services     = "deb-sub1-secondary-gke-services"
   grant_registry_access = true
-  
+
   cluster_autoscaling = {
     "auto_repair" : true,
     "auto_upgrade" : true,
