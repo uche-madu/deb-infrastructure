@@ -16,7 +16,7 @@ resource "google_bigquery_table" "review_logs" {
   deletion_protection = false
   
   time_partitioning {
-    type = "DAY",
+    type = "DAY"   
     field = "day"
   }
 }
@@ -27,7 +27,7 @@ resource "google_bigquery_table" "classified_movie_review" {
   deletion_protection = false
 
   time_partitioning {
-    type = "DAY",
+    type = "DAY"
     field = "insert_date"
   }
 }
