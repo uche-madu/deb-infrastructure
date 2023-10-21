@@ -44,6 +44,10 @@ variable "node_count" {
   type = number
 }
 
+variable "airflow-gke-workload-identity" {
+  type = string
+}
+
 
 # Services
 variable "enable_apis" {

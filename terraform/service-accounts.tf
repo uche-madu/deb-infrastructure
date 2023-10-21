@@ -9,7 +9,7 @@ data "google_service_account" "deb-sa" {
 
 
 resource "google_service_account_iam_binding" "impersonate_binding" {
-  service_account_id = module.airflow_workload_identity.gcp_service_account_email
+  service_account_id = module.airflow_workload_identity.gcp_service_account_fqn
   role               = "roles/iam.serviceAccountTokenCreator"
 
   members = [
