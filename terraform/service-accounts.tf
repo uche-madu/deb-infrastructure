@@ -6,3 +6,13 @@
 data "google_service_account" "deb-sa" {
   account_id = "deb-sa"
 }
+
+
+resource "google_service_account_iam_binding" "impersonate_binding" {
+  service_account_id = module.airflow_workload_identity.gcp_service_account_email
+  role               = "roles/iam.serviceAccountTokenCreator"
+
+  members = [
+    "serviceAccount:${data.google_service_account.deb-sa.email}"
+  ]
+}
