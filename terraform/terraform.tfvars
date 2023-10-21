@@ -14,6 +14,8 @@ node_pool_name = "deb-node-pool"
 machine_type   = "n2-standard-4"
 node_count     = 1
 
+airflow-gke-workload-identity = "airflow-workload-identity"
+
 # Services
 enable_apis                 = true
 disable_services_on_destroy = false
