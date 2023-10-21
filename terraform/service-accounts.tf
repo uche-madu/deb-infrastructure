@@ -7,9 +7,14 @@ data "google_service_account" "deb-sa" {
   account_id = "deb-sa"
 }
 
+resource "google_service_account" "airflow_workload_identity_sa" {
+  account_id   = "airflow-wi-sa"
+  display_name = "GSA for Airflow GKE workload identity"
+}
 
+# Allows for service account impersonation
 resource "google_service_account_iam_binding" "impersonate_binding" {
-  service_account_id = module.airflow_workload_identity.gcp_service_account_fqn
+  service_account_id = google_service_account.airflow_workload_identity_sa.name
   role               = "roles/iam.serviceAccountTokenCreator"
 
   members = [
