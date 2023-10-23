@@ -98,7 +98,11 @@ airflow:
     persistence:
       size: 1Gi
     serviceAccount:
-      name: airflow
+      name: airflow-worker-wi-sa
+  
+  scheduler:
+    serviceAccount:
+      name: airflow-scheduler-wi-sa
 
   triggerer:
     persistence:
