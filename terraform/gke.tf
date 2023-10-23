@@ -82,10 +82,20 @@ resource "helm_release" "argocd" {
 }
 
 # GKE Workload identity
-module "airflow_workload_identity" {
+module "airflow_worker_workload_identity" {
   source                      = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   use_existing_gcp_sa         = true
-  name                        = google_service_account.airflow_workload_identity_sa.name #var.airflow-gke-workload-identity
+  name                        = google_service_account.airflow_worker_workload_identity_sa.name #var.airflow-gke-workload-identity
+  namespace                   = var.airflow_namespace
+  project_id                  = var.project_id
+  impersonate_service_account = data.google_service_account.deb-sa.email
+  depends_on                  = [helm_release.argocd]
+}
+
+module "airflow_scheduler_workload_identity" {
+  source                      = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  use_existing_gcp_sa         = true
+  name                        = google_service_account.airflow_scheduler_workload_identity_sa.name #var.airflow-gke-workload-identity
   namespace                   = var.airflow_namespace
   project_id                  = var.project_id
   impersonate_service_account = data.google_service_account.deb-sa.email

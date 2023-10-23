@@ -76,10 +76,10 @@ output "enabled_apis" {
 # GKE Workload Identity
 output "gsa_airflow_gke_workflow_identity" {
   description = "Google service account email for airflow-gke workflow identity"
-  value       = module.airflow_workload_identity.gcp_service_account_email
+  value       = module.airflow_worker_workload_identity.gcp_service_account_email
 }
 
 output "ksa_airflow_gke_workflow_identity" {
   description = "Kubernetes service account for airflow-gke workflow identity"
-  value       = module.airflow_workload_identity.k8s_service_account_name
+  value       = module.airflow_scheduler_workload_identity.k8s_service_account_name
 }

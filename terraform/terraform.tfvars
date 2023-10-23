@@ -11,8 +11,8 @@ subnet-01    = "deb-sub1"
 # GKE
 gke_cluster    = "deb-airflow-cluster"
 node_pool_name = "deb-node-pool"
-machine_type   = "n2-standard-4"
-node_count     = 1
+machine_type   = "n2-standard-2"
+node_count     = 3
 
 airflow-gke-workload-identity = "airflow-workload-identity"
 
