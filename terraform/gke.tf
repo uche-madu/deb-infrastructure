@@ -26,6 +26,7 @@ module "gke" {
   ip_range_pods         = "deb-sub1-secondary-gke-pods"
   ip_range_services     = "deb-sub1-secondary-gke-services"
   grant_registry_access = true
+  remove_default_node_pool = true
 
   cluster_autoscaling = {
     "auto_repair" : true,
@@ -44,7 +45,6 @@ module "gke" {
     {
       name               = var.node_pool_name
       machine_type       = var.machine_type
-      node_locations     = var.zone #join(",", random_shuffle.zones.result)
       min_count          = 1
       max_count          = 3
       disk_size_gb       = 32
@@ -52,7 +52,7 @@ module "gke" {
       image_type         = "COS_CONTAINERD"
       service_account    = data.google_service_account.deb-sa.email
       preemptible        = false
-      initial_node_count = var.node_count
+      max_unavailable = 1
     },
   ]
 
