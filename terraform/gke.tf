@@ -17,15 +17,15 @@ module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google"
   version = "~> 28.0.0"
 
-  project_id            = module.vpc.project_id
-  name                  = "${var.gke_cluster}-${random_id.suffix.hex}"
-  region                = var.region
-  zones                 = [var.zone]
-  network               = module.vpc.network_name
-  subnetwork            = module.vpc.subnets_names[0]
-  ip_range_pods         = "deb-sub1-secondary-gke-pods"
-  ip_range_services     = "deb-sub1-secondary-gke-services"
-  grant_registry_access = true
+  project_id               = module.vpc.project_id
+  name                     = "${var.gke_cluster}-${random_id.suffix.hex}"
+  region                   = var.region
+  zones                    = [var.zone]
+  network                  = module.vpc.network_name
+  subnetwork               = module.vpc.subnets_names[0]
+  ip_range_pods            = "deb-sub1-secondary-gke-pods"
+  ip_range_services        = "deb-sub1-secondary-gke-services"
+  grant_registry_access    = true
   remove_default_node_pool = true
 
   cluster_autoscaling = {
@@ -43,15 +43,15 @@ module "gke" {
 
   node_pools = [
     {
-      name               = var.node_pool_name
-      machine_type       = var.machine_type
-      min_count          = 1
-      max_count          = 3
-      disk_size_gb       = 32
-      disk_type          = "pd-standard"
-      image_type         = "COS_CONTAINERD"
-      service_account    = data.google_service_account.deb-sa.email
-      preemptible        = false
+      name            = var.node_pool_name
+      machine_type    = var.machine_type
+      min_count       = 1
+      max_count       = 3
+      disk_size_gb    = 32
+      disk_type       = "pd-standard"
+      image_type      = "COS_CONTAINERD"
+      service_account = data.google_service_account.deb-sa.email
+      preemptible     = false
       max_unavailable = 1
     },
   ]
