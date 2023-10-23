@@ -7,14 +7,28 @@ data "google_service_account" "deb-sa" {
   account_id = "deb-sa"
 }
 
-resource "google_service_account" "airflow_workload_identity_sa" {
-  account_id   = "airflow-wi-sa"
-  display_name = "GSA for Airflow GKE workload identity"
+resource "google_service_account" "airflow_worker_workload_identity_sa" {
+  account_id   = "airflow-worker-wi-sa"
+  display_name = "GSA for Airflow Worker Component GKE workload identity"
+}
+
+resource "google_service_account" "airflow_scheduler_workload_identity_sa" {
+  account_id   = "airflow-scheduler-wi-sa"
+  display_name = "GSA for Airflow Scheduler Component GKE workload identity"
 }
 
 # Allows for service account impersonation
-resource "google_service_account_iam_binding" "impersonate_binding" {
-  service_account_id = google_service_account.airflow_workload_identity_sa.name
+resource "google_service_account_iam_binding" "airflow_worker_gsa_impersonation" {
+  service_account_id = google_service_account.airflow_worker_workload_identity_sa.name
+  role               = "roles/iam.serviceAccountTokenCreator"
+
+  members = [
+    "serviceAccount:${data.google_service_account.deb-sa.email}"
+  ]
+}
+
+resource "google_service_account_iam_binding" "airflow_scheduler_gsa_impersonation" {
+  service_account_id = google_service_account.airflow_scheduler_workload_identity_sa.name
   role               = "roles/iam.serviceAccountTokenCreator"
 
   members = [
