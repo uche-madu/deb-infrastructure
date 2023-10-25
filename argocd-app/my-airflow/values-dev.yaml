@@ -107,6 +107,12 @@ airflow:
   triggerer:
     persistence:
       size: 1Gi
+  
+  config:
+    logging:
+      remote_logging: 'True'
+      remote_base_log_folder: 'gs://deb-capstone/airflow/logs/'
+      remote_log_conn_id: 'gcp'
 
   # logs:
   #   persistence:
