@@ -89,7 +89,7 @@ module "airflow_worker_workload_identity" {
   namespace                   = var.airflow_namespace
   project_id                  = var.project_id
   impersonate_service_account = data.google_service_account.deb-sa.email
-  roles                       = ["roles/storage.admin", "roles/compute.admin", "roles/dataproc.editor", "roles/bigquery.admin", "roles/cloudsql.admin"]
+  roles                       = ["roles/storage.admin", "roles/compute.admin", "roles/dataproc.editor", "roles/bigquery.admin", "roles/cloudsql.admin", "roles/iam.serviceAccountUser"]
   module_depends_on           = [helm_release.argocd]
 }
 
@@ -100,7 +100,7 @@ module "airflow_scheduler_workload_identity" {
   namespace                   = var.airflow_namespace
   project_id                  = var.project_id
   impersonate_service_account = data.google_service_account.deb-sa.email
-  roles                       = ["roles/storage.admin", "roles/compute.admin", "roles/dataproc.editor", "roles/bigquery.admin", "roles/cloudsql.admin"]
+  roles                       = ["roles/storage.admin", "roles/compute.admin", "roles/dataproc.editor", "roles/bigquery.admin", "roles/cloudsql.admin", "roles/iam.serviceAccountUser"]
   module_depends_on           = [helm_release.argocd]
 }
 
