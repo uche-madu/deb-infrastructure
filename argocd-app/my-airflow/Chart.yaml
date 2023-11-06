@@ -1,6 +1,6 @@
 apiVersion: v2
 name: my-airflow
-description: An Umbrella Helm chart for Kubernetes
+description: An Helm Umbrella chart for Airflow
 version: 0.1.0
 dependencies:
   - name: airflow

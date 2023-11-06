@@ -15,4 +15,17 @@
 #   } 
 # }
 
+# resource "kubernetes_config_map" "airflow_statsd_mappings" {
+#   metadata {
+#     name = "airflow-statsd-mappings"
+#     namespace = kubernetes_namespace.airflow.metadata[0].name
+
+#   }
+
+#   data = {
+#     "statsd-mappings.yaml" = file("${path.module}/../argocd-app/monitoring/statsd-mappings.yaml")
+#   }
+# }
+
+
 
