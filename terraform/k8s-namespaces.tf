@@ -17,8 +17,8 @@ resource "null_resource" "remove_finalizers" {
   depends_on = [kubernetes_namespace.argocd]
 
   provisioner "local-exec" {
-    when = destroy
-    command = <<-EOT
+    when       = destroy
+    command    = <<-EOT
       kubectl get namespace ${self.triggers.namespace} -o json | \
       jq '.metadata.finalizers = []' | \
       kubectl replace --raw "/api/v1/namespaces/${self.triggers.namespace}/finalize" -f -
