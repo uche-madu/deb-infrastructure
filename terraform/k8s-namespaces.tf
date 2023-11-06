@@ -19,15 +19,15 @@ resource "null_resource" "remove_finalizers" {
   provisioner "local-exec" {
     when = destroy
     command = <<-EOT
-      kubectl get namespace ${var.argocd_namespace} -o json | \
+      kubectl get namespace ${self.triggers.namespace} -o json | \
       jq '.metadata.finalizers = []' | \
-      kubectl replace --raw "/api/v1/namespaces/${var.argocd_namespace}/finalize" -f -
+      kubectl replace --raw "/api/v1/namespaces/${self.triggers.namespace}/finalize" -f -
     EOT
     on_failure = continue
   }
 
   triggers = {
-    always_run = "${timestamp()}"
+    namespace = var.argocd_namespace
   }
 }
 
