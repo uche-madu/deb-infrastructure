@@ -88,7 +88,6 @@ module "airflow_worker_workload_identity" {
   name                        = google_service_account.airflow_worker_workload_identity_sa.account_id #var.airflow-gke-workload-identity
   namespace                   = var.airflow_namespace
   project_id                  = var.project_id
-  impersonate_service_account = data.google_service_account.deb-sa.email
   roles                       = ["roles/storage.admin", "roles/compute.admin", "roles/dataproc.editor", "roles/bigquery.admin", "roles/cloudsql.admin", "roles/iam.serviceAccountUser"]
   module_depends_on           = [helm_release.argocd, google_service_account.airflow_worker_workload_identity_sa]
 }
@@ -99,7 +98,6 @@ module "airflow_scheduler_workload_identity" {
   name                        = google_service_account.airflow_scheduler_workload_identity_sa.account_id #var.airflow-gke-workload-identity
   namespace                   = var.airflow_namespace
   project_id                  = var.project_id
-  impersonate_service_account = data.google_service_account.deb-sa.email
   roles                       = ["roles/storage.admin", "roles/compute.admin", "roles/dataproc.editor", "roles/bigquery.admin", "roles/cloudsql.admin", "roles/iam.serviceAccountUser"]
   module_depends_on           = [helm_release.argocd, google_service_account.airflow_scheduler_workload_identity_sa]
 }

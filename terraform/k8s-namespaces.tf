@@ -10,6 +10,8 @@ resource "kubernetes_namespace" "argocd" {
   metadata {
     name = var.argocd_namespace
   }
+
+  depends_on = [module.gke.endpoint]
 }
 
 # Delete finalizer on terraform destroy
