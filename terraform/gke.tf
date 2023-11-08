@@ -89,7 +89,7 @@ module "airflow_worker_workload_identity" {
   namespace           = var.airflow_namespace
   project_id          = var.project_id
   roles               = ["roles/storage.admin", "roles/compute.admin", "roles/dataproc.editor", "roles/bigquery.admin", "roles/cloudsql.admin", "roles/iam.serviceAccountUser"]
-  module_depends_on   = [helm_release.argocd, google_service_account.airflow_worker_workload_identity_sa]
+  depends_on          = [helm_release.argocd, google_service_account.airflow_worker_workload_identity_sa]
 }
 
 module "airflow_scheduler_workload_identity" {
@@ -99,7 +99,7 @@ module "airflow_scheduler_workload_identity" {
   namespace           = var.airflow_namespace
   project_id          = var.project_id
   roles               = ["roles/storage.admin", "roles/compute.admin", "roles/dataproc.editor", "roles/bigquery.admin", "roles/cloudsql.admin", "roles/iam.serviceAccountUser"]
-  module_depends_on   = [helm_release.argocd, google_service_account.airflow_scheduler_workload_identity_sa]
+  depends_on          = [helm_release.argocd, google_service_account.airflow_scheduler_workload_identity_sa]
 }
 
 # Create NFS Storage
