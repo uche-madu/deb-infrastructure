@@ -11,7 +11,7 @@ subnet-01    = "deb-sub1"
 # GKE
 gke_cluster    = "deb-airflow-cluster"
 node_pool_name = "deb-node-pool"
-machine_type   = "n2-standard-4"
+machine_type   = "n2-standard-2"
 node_count     = 3
 
 airflow-gke-workload-identity = "airflow-workload-identity"
@@ -25,6 +25,7 @@ disable_dependent_services  = false
 airflow_helm_version = "1.10.0"
 airflow_namespace    = "airflow"
 argocd_namespace     = "argocd"
+monitoring_namespace = "monitoring"
 # nfs_namespace = "storage"
 
 # Cloud SQL

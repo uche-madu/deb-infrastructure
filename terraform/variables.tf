@@ -72,6 +72,10 @@ variable "argocd_namespace" {
   type = string
 }
 
+variable "monitoring_namespace" {
+  type = string
+}
+
 # variable "nfs_namespace" {
 #   type = string
 # }
