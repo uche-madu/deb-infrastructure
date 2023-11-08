@@ -25,7 +25,7 @@ disable_dependent_services  = false
 airflow_helm_version = "1.10.0"
 airflow_namespace    = "airflow"
 argocd_namespace     = "argocd"
-monitoring_namespace = "monitoring"
+# monitoring_namespace = "monitoring"
 # nfs_namespace = "storage"
 
 # Cloud SQL
