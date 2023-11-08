@@ -1,0 +1,84 @@
+kube-prometheus-stack:
+  prometheus:
+    service:
+      type: LoadBalancer
+    prometheusSpec:
+      serviceMonitorSelectorNilUsesHelmValues: false
+    additionalServiceMonitors:
+      - name: "airflow-statsd"
+        selector:
+          matchLabels:
+            tier: airflow
+            component: statsd
+            heritage: Helm
+            release: "airflow"  # Replace with your Airflow release label
+        namespaceSelector:
+          matchNames:
+            - "airflow"  # Replace with the namespace of your Airflow deployment
+        endpoints:
+          - port: "statsd-scrape"
+            interval: "30s"  # Scrape interval
+            path: "/metrics"  # Path where metrics are exposed, adjust if needed
+
+  grafana:
+    service:
+      type: LoadBalancer
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        dashboardProviders:
+          - name: default
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+    
+    dashboards:
+      default:
+        prometheus-overview:
+          gnetId: 3662 # imports dashboard from grafana.com
+          revision: 2
+          datasource: Prometheus
+        alertmanager:
+          gnetId: 9578 # imports dashboard from grafana.com
+          revision: 4
+        node-exporter:
+          gnetId: 1860 # imports dashboard from grafana.com
+          revision: 33
+          datasource: Prometheus
+        argocd-stats:
+          gnetId: 14584 # imports dashboard from grafana.com
+          revision: 1
+        airflow-cluster:
+          file: dashboards/airflow-cluster-dashboard.json
+        airflow-dags:
+          file: dashboards/dag-dashboard.json
+    
+    dashboardsConfigMaps:
+      default: grafana-dashboards
+      
+
+  # alertmanager:
+  #   config:
+  #     global:
+  #       # slack_api_url: "slack_api_url_alertmanager_secret"
+  #     route:
+  #       repeat_interval: 24h
+  #       receiver: blackhole
+  #       routes:
+  #         - receiver: default
+  #           group_by: [...]
+  #     receivers:
+  #       - name: blackhole
+  #       - name: default
+  #         telegram_configs:
+  #           - chat_id: 
+  #         slack_configs:
+  #           - api_url:
+  #             username: alertmanager
+  #             title: "Status: {{ .Status }}"
+  #             text: "{{ .CommonAnnotations.message }}"
+  #             title_link:

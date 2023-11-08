@@ -5,11 +5,11 @@ resource "kubernetes_namespace" "airflow" {
   }
 }
 
-resource "kubernetes_namespace" "monitoring" {
-  metadata {
-    name = var.monitoring_namespace
-  }
-}
+# resource "kubernetes_namespace" "monitoring" {
+#   metadata {
+#     name = var.monitoring_namespace
+#   }
+# }
 
 # ArgoCD namespace
 resource "kubernetes_namespace" "argocd" {
