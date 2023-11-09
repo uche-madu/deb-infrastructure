@@ -58,7 +58,7 @@ kube-prometheus-stack:
         #   file: dashboards/dag-dashboard.json
     
     dashboardsConfigMaps:
-      default: grafana-dashboards
+      default: airflow-cluster-dashboard
       
 
   # alertmanager:
