@@ -26,18 +26,18 @@ kube-prometheus-stack:
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
-        dashboardProviders:
-          - name: base
+        providers:
+          - name: default
             orgId: 1
             folder: ''
             type: file
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/base
+              path: /var/lib/grafana/dashboards/default
     
     dashboards:
-      base:
+      default:
         prometheus-overview:
           gnetId: 3662 # imports dashboard from grafana.com
           revision: 2
