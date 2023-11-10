@@ -41,6 +41,14 @@ kube-prometheus-stack:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
+          - name: custom
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/custom
     
     dashboards:
       default:
@@ -58,6 +66,7 @@ kube-prometheus-stack:
         argocd:
           gnetId: 14584 # imports dashboard from grafana.com
           revision: 1
+      custom:
         airflow-cluster:
           file: dashboards/airflow-cluster-dashboard.json
         airflow-dags:
