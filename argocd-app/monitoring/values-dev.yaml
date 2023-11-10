@@ -52,13 +52,13 @@ kube-prometheus-stack:
         argocd:
           gnetId: 14584 # imports dashboard from grafana.com
           revision: 1
-        # airflow-cluster:
-        #   file: dashboards/airflow-cluster-dashboard.json
-        # airflow-dags:
-        #   file: dashboards/dag-dashboard.json
+        airflow-cluster:
+          file: dashboards/airflow-cluster-dashboard.json
+        airflow-dags:
+          file: dashboards/dag-dashboard.json
     
     dashboardsConfigMaps:
-      default: airflow-cluster-dashboard
+      default: grafana-dashboards
       
 
   # alertmanager:
