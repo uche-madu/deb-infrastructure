@@ -23,57 +23,52 @@ kube-prometheus-stack:
   grafana:
     service:
       type: LoadBalancer
-    # sidecar:
-    #   dashboards:
-    #     enabled: false
-    #   datasources:
-    #     enabled: false
       
-    dashboardProviders:
-      dashboardproviders.yaml:
-        apiVersion: 1
-        providers:
-          - name: default
-            orgId: 1
-            folder: ''
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/default
-          - name: custom
-            orgId: 1
-            folder: ''
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/custom
+    # dashboardProviders:
+    #   dashboardproviders.yaml:
+    #     apiVersion: 1
+    #     providers:
+    #       - name: default
+    #         orgId: 1
+    #         folder: ''
+    #         type: file
+    #         disableDeletion: false
+    #         editable: true
+    #         options:
+    #           path: /var/lib/grafana/dashboards/default
+    #       - name: custom
+    #         orgId: 1
+    #         folder: ''
+    #         type: file
+    #         disableDeletion: false
+    #         editable: true
+    #         options:
+    #           path: /var/lib/grafana/dashboards/custom
     
-    dashboards:
-      default:
-        prometheus-overview:
-          gnetId: 3662 # imports dashboard from grafana.com
-          revision: 2
-          datasource: Prometheus
-        alertmanager:
-          gnetId: 9578 # imports dashboard from grafana.com
-          revision: 4
-        node-exporter:
-          gnetId: 1860 # imports dashboard from grafana.com
-          revision: 33
-          datasource: Prometheus
-        argocd:
-          gnetId: 14584 # imports dashboard from grafana.com
-          revision: 1
-      custom:
-        airflow-cluster:
-          file: dashboards/airflow-cluster-dashboard.json
-        airflow-dags:
-          file: dashboards/dag-dashboard.json
+    # dashboards:
+    #   default:
+    #     prometheus-overview:
+    #       gnetId: 3662 # imports dashboard from grafana.com
+    #       revision: 2
+    #       datasource: Prometheus
+    #     alertmanager:
+    #       gnetId: 9578 # imports dashboard from grafana.com
+    #       revision: 4
+    #     node-exporter:
+    #       gnetId: 1860 # imports dashboard from grafana.com
+    #       revision: 33
+    #       datasource: Prometheus
+    #     argocd:
+    #       gnetId: 14584 # imports dashboard from grafana.com
+    #       revision: 1
+    #   custom:
+    #     airflow-cluster:
+    #       file: dashboards/airflow-cluster-dashboard.json
+    #     airflow-dags:
+    #       file: dashboards/dag-dashboard.json
     
-    dashboardsConfigMaps:
-      default: grafana-dashboards
+    # dashboardsConfigMaps:
+    #   default: grafana-dashboards
       
 
   # alertmanager:

@@ -4,6 +4,6 @@ metadata:
   name: grafana-dashboards
   namespace: monitoring
   labels:
-    custom_grafana_dashboard: "1"
+    grafana_dashboard: "1"
 data:
 {{ (.Files.Glob "dashboards/*.json").AsConfig | indent 2 }}
