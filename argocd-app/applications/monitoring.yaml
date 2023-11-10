@@ -24,4 +24,7 @@ spec:
     syncOptions:
       - allowEmpty=true
       - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - Replace=true
+      - ServerSideApply=true
 
