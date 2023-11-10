@@ -23,6 +23,12 @@ kube-prometheus-stack:
   grafana:
     service:
       type: LoadBalancer
+    sidecar:
+      dashboards:
+        enabled: false
+      datasources:
+        enabled: false
+      
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
