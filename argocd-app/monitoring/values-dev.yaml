@@ -46,7 +46,7 @@ kube-prometheus-stack:
               path: /var/lib/grafana/dashboards/custom
     
     dashboards:
-      default:
+      custom:
         prometheus-overview:
           gnetId: 3662 # imports dashboard from grafana.com
           revision: 2
@@ -61,7 +61,6 @@ kube-prometheus-stack:
         argocd:
           gnetId: 14584 # imports dashboard from grafana.com
           revision: 1
-      custom:
         airflow-cluster:
           file: dashboards/airflow-cluster-dashboard.json
         airflow-dags:
